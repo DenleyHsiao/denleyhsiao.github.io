@@ -10,6 +10,7 @@ baseurl: /
 domain_name: 'http://blog.justtodo.com'
 google_analytics: 'UA-XXXXXXXX-X'
 favicon: '/assets/images/favicon.ico'
+gems: [jekyll-rss]
 
 # Details for the RSS feed generator
 url:            'blog.justtodo.com'
