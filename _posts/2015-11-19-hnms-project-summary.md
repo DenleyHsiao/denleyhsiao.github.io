@@ -53,3 +53,5 @@ categories: work summary
 * 甲乙丙都是这种思维：只要系统做好，钱不是问题
 
 总之，一个成功交付的项目，是各方努力的结果，而不是各自留退路的结果。
+
+下一篇：[HNMS总结---技术篇](/2015/11/20/hnms-technology-summary)
