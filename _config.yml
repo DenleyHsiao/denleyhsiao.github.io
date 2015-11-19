@@ -8,7 +8,7 @@ gems:
 markdown: redcarpet
 highlighter: pygments
 logo: false
-paginate: 2
+paginate: 5
 baseurl: /
 domain_name: 'http://blog.justtodo.com'
 google_analytics: 'UA-XXXXXXXX-X'
