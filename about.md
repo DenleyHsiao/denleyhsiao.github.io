@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About me 
+title: 关于我
 ---
 
-This is a static page. It could be an 'about page' if you'd like.
+C++、Ruby开发者.
