@@ -2,15 +2,15 @@ name: 晓月刀的博客
 description: 多动手、勤思考
 meta_description: "晓月刀的博客"
 
+gems: [jekyll-paginate,jekyll-feed]
 markdown: redcarpet
 highlighter: pygments
 logo: false
-paginate: 10
+paginate: 2
 baseurl: /
 domain_name: 'http://blog.justtodo.com'
 google_analytics: 'UA-XXXXXXXX-X'
 favicon: '/assets/images/favicon.ico'
-gems: [jekyll-rss]
 
 # Details for the RSS feed generator
 url:            'blog.justtodo.com'
