@@ -5,7 +5,8 @@ date:   2015-11-18 10:15:00
 categories: miscellaneous
 ---
 
-初次使用kasper，就遇到下面的坑：
+一直在找合适的主题，也觉得[掌心中的demo][zhangxin]主题效果不错，但最终决定使用kasper，还是因为看了Rei的[简单就好][simple-is-better],
+不过初次使用kasper，就遇到了下面的问题：
 
 #### 安装完成后，启动jekyll时出现如下错误
 <pre><code>
@@ -34,3 +35,6 @@ gem install jekyll -v '<3.0.0'
 * [Jekyll变量 和 Jekyll模板语法教程](http://higrid.net/c-art-jeklly_template_data.htm)
 * [Jekyll 语法简单笔记](http://ju.outofmemory.cn/entry/98471)
 * [Markdown 语法说明(中文版)](http://wowubuntu.com/markdown/)
+
+[zhangxin]: http://www.zhanxin.info/themes.html
+[simple-is-better]: http://chloerei.com/2015/10/21/simple-is-better/
