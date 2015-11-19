@@ -2,7 +2,7 @@ name: 晓月刀的博客
 description: 多动手、勤思考
 meta_description: "晓月刀的博客"
 
-gems: [jekyll-paginate,jekyll-feed]
+gems: [jekyll-paginate,jekyll-rss]
 markdown: redcarpet
 highlighter: pygments
 logo: false
