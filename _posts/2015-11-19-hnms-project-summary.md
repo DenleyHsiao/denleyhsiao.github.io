@@ -54,7 +54,4 @@ categories: work summary
 
 总之，一个成功交付的项目，是各方努力的结果，而不是各自留退路的结果。
 
-下一篇：[HNMS总结---技术篇](hnms-technology-summary)
-
-
-[hnms-technology-summary]: /work/summary/2015/11/20/hnms-technology-summary.html
+下一篇：[HNMS总结---技术篇](/work/summary/2015/11/20/hnms-technology-summary.html)
