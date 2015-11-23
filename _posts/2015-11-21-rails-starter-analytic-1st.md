@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "rails启动分析(1) --- rails 命令"
+title:  "rails启动分析(1) -- rails 命令"
 date:   2015-11-21 8:25:00
 categories: rails gem
 ---
@@ -13,7 +13,7 @@ categories: rails gem
 万事开头难，在没有老师或项目的环境下，只能是看书，俗话说的好：“读书破万卷, 下笔如有神”，但时间有限，“万卷”中选择看哪些书又成了问题，
 怎么办?
 
-* 选择经典的：找baidu, 逛论坛 
+* 选择经典的：找baidu, 逛论坛
 * 选择英文版的：原因我就不说了，前提是你的英语还行（英语不行也不能入这行啊）
 
 我目前选择的是：
@@ -75,7 +75,8 @@ echo $PATH
 
 ####源码分析
 * 现在开始看看rails文件内容
-{% highlight ruby linenos %}
+
+```ruby
 require 'rubygems'
 
 version = ">= 0.a"
@@ -93,109 +94,112 @@ end
 # 根据版本号运行程序
 gem 'railties', version
 load Gem.bin_path('railties', 'rails', version)
-{% endhighlight %}
+```
 
 * 跟踪第16行的gem方法，进入keneral_gem.rb
 首先说明下，这里的gem方法同与Gemfile中的gem方法相同，不过后者完成下载、部署、以及载入
-{% highlight ruby linenos %}
-  def gem(gem_name, *requirements) # :doc:
-    ...
-    # *requirements参数带入版本要求的正则表达式
-    dep = Gem::Dependency.new(gem_name, *requirements)
 
-    loaded = Gem.loaded_specs[gem_name]
+```ruby
+def gem(gem_name, *requirements) # :doc:
+  ...
+  # *requirements参数带入版本要求的正则表达式
+  dep = Gem::Dependency.new(gem_name, *requirements)
 
-    return false if loaded && dep.matches_spec?(loaded)
+  loaded = Gem.loaded_specs[gem_name]
 
-    # 确定gem_name使用的版本
-    spec = dep.to_spec
+  return false if loaded && dep.matches_spec?(loaded)
 
-    Gem::LOADED_SPECS_MUTEX.synchronize {
-      # 下文剖析
-      spec.activate
-    } if spec
-  end
-{% endhighlight %}
+  # 确定gem_name使用的版本
+  spec = dep.to_spec
+
+  Gem::LOADED_SPECS_MUTEX.synchronize {
+    # 下文剖析
+    spec.activate
+  } if spec
+end
+```
 进入gem方法中的dep.to_spec,到了dependency.rb文件中：
-{% highlight ruby linenos %}
-  def matching_specs platform_only = false
-    matches = Gem::Specification.stubs.find_all { |spec|
-      self.name === spec.name and # TODO: == instead of ===
-        requirement.satisfied_by? spec.version
-    }.map(&:to_spec)
 
-    if platform_only
-      matches.reject! { |spec|
-        not Gem::Platform.match spec.platform
-      }
-    end
-    
-    # 通过排序，最新的版本就是last了
-    matches.sort_by { |s| s.sort_obj } # HACK: shouldn't be needed
-  end
-  
-  def to_specs
-    matches = matching_specs true
+```ruby
+def matching_specs platform_only = false
+  matches = Gem::Specification.stubs.find_all { |spec|
+    self.name === spec.name and # TODO: == instead of ===
+      requirement.satisfied_by? spec.version
+  }.map(&:to_spec)
 
-    # TODO: check Gem.activated_spec[self.name] in case matches falls outside
-    # 错误处理
-    if matches.empty? then
-      ...
-      raise error
-    end
-
-    # TODO: any other resolver validations should go here
-
-    matches
+  if platform_only
+    matches.reject! { |spec|
+      not Gem::Platform.match spec.platform
+    }
   end
 
-  def to_spec
-    matches = self.to_specs
+  # 通过排序，最新的版本就是last了
+  matches.sort_by { |s| s.sort_obj } # HACK: shouldn't be needed
+end
 
-    active = matches.find { |spec| spec.activated? }
+def to_specs
+  matches = matching_specs true
 
-    return active if active
-
-    matches.delete_if { |spec| spec.version.prerelease? } unless prerelease?
-    # 哈哈，找到了，使用最新版本
-    matches.last
+  # TODO: check Gem.activated_spec[self.name] in case matches falls outside
+  # 错误处理
+  if matches.empty? then
+    ...
+    raise error
   end
-{% endhighlight %}
+
+  # TODO: any other resolver validations should go here
+
+  matches
+end
+
+def to_spec
+  matches = self.to_specs
+
+  active = matches.find { |spec| spec.activated? }
+
+  return active if active
+
+  matches.delete_if { |spec| spec.version.prerelease? } unless prerelease?
+  # 哈哈，找到了，使用最新版本
+  matches.last
+end
+```
 原来，dep.to_spec方法通过正则匹配出来的版本号，最终确定了{gem_name}所在的目录
 
 * 进入gem方法中的spec.activate
-{% highlight ruby linenos %}
-     ##
-     # Activate this spec, registering it as a loaded spec and adding
-     # it's lib paths to $LOAD_PATH. Returns true if the spec was
-     # activated, false if it was previously activated. Freaks out if
-     # there are conflicts upon activation.
-   
-     def activate
-       other = Gem.loaded_specs[self.name]
-       if other then
-         check_version_conflict other
-         return false
-       end
-   
-       raise_if_conflicts
-   
-       activate_dependencies
-       add_self_to_load_path
-   
-       Gem.loaded_specs[self.name] = self
-       @activated = true
-       @loaded = true
-   
-       return true
-     end
-{% endhighlight %}
+
+```ruby
+##
+# Activate this spec, registering it as a loaded spec and adding
+# it's lib paths to $LOAD_PATH. Returns true if the spec was
+# activated, false if it was previously activated. Freaks out if
+# there are conflicts upon activation.
+
+def activate
+ other = Gem.loaded_specs[self.name]
+ if other then
+   check_version_conflict other
+   return false
+ end
+
+ raise_if_conflicts
+
+ activate_dependencies
+ add_self_to_load_path
+
+ Gem.loaded_specs[self.name] = self
+ @activated = true
+ @loaded = true
+
+ return true
+end
+```
 前面{gem_name}目录确定，这里就是将此目录下的lib目录就可以加入$LOAD_PATH, 最终点亮后续所有有依赖此GEM的“require '{gem_name}'"
 
 * 分析完gem方法，现在就乘load方法了
 由于前一gem方法，此处就容易懂了："load/require '{gem_name}'"就可以定位到相应的{{gem_name}}.rb文件载入了，这里是railties.rb文件了---这才是
 真正的启动程序
-     
+
 * 下面说下版本号与文件名分离的好处：
 
 > 1. 能适应版本号统一在Gemfile中，隔离变化，并能像全面一样动态生成全路径

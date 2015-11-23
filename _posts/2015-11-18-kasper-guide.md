@@ -9,23 +9,21 @@ categories: miscellaneous
 不过初次使用kasper，就遇到了下面的问题：
 
 #### 安装完成后，启动jekyll时出现如下错误
-<pre><code>
- Incremental build: disabled. Enable with --incremental
-      Generating...
-       Deprecation: Collection#map should be called on the #docs array directly.
-                    Called by /Users/xiao_dli/work/kasper/_plugins/rssgenerator.rb:46:in `block in generate'.
-       Deprecation: Collection#count should be called on the #docs array directly.
-                    Called by /Users/xiao_dli/work/kasper/_plugins/rssgenerator.rb:49:in `rescue in block in generate'.
-       Deprecation: Collection#reverse should be called on the #docs array directly.
-                    Called by /Users/xiao_dli/work/kasper/_plugins/rssgenerator.rb:51:in `block in generate'.
-       Deprecation: Document#title is now a key in the #data hash.
-                    Called by /Users/xiao_dli/work/kasper/_plugins/rssgenerator.rb:53:in `block (3 levels) in generate'.
-       Deprecation: Document#excerpt is now a key in the #data hash.
-                    Called by /Users/xiao_dli/work/kasper/_plugins/rssgenerator.rb:55:in `block (3 levels) in generate'.
+<pre><code>Incremental build: disabled. Enable with --incremental
+Generating...
+ Deprecation: Collection#map should be called on the #docs array directly.
+              Called by /Users/xiao_dli/work/kasper/_plugins/rssgenerator.rb:46:in `block in generate'.
+ Deprecation: Collection#count should be called on the #docs array directly.
+              Called by /Users/xiao_dli/work/kasper/_plugins/rssgenerator.rb:49:in `rescue in block in generate'.
+ Deprecation: Collection#reverse should be called on the #docs array directly.
+              Called by /Users/xiao_dli/work/kasper/_plugins/rssgenerator.rb:51:in `block in generate'.
+ Deprecation: Document#title is now a key in the #data hash.
+              Called by /Users/xiao_dli/work/kasper/_plugins/rssgenerator.rb:53:in `block (3 levels) in generate'.
+ Deprecation: Document#excerpt is now a key in the #data hash.
+              Called by /Users/xiao_dli/work/kasper/_plugins/rssgenerator.rb:55:in `block (3 levels) in generate'.
 </code></pre>
 最后发现原来是不能使用jekyll新的版本3.0.0（3.0.1也不行），通过以下方式解决
-<pre><code>
-gem uninstall jekyll
+<pre><code>gem uninstall jekyll
 gem install jekyll -v '<3.0.0'
 </code></pre>
 

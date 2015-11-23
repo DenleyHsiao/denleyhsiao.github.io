@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "HNMS总结---项目篇"
+title:  "HNMS总结--项目篇"
 date:   2015-11-19 15:18:00
 categories: work summary
 ---
