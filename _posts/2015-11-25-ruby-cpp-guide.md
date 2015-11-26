@@ -127,4 +127,5 @@ puts "#{a} + #{b} = #{Example.new.add(a, b)}"
 不执行此命令 <del>`swig -ruby example.i`</del>
 
 ####附：
+* [示例下载](samples/RubyCppTest.tar.gz)
 * [在 C++ 中使用 Rice 构建 Ruby 扩展](http://www.ibm.com/developerworks/cn/opensource/os-extendruby/index.html#list1)
