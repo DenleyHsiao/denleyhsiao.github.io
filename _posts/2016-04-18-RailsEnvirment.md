@@ -64,9 +64,9 @@ sudo apt-get dist-upgrade
 ## 安装RVM
 类似的还有rbenv, 主要是本人做Ruby开发需要，操作参考[在ubuntu中安装及使用rvm管理ruby版本](http://blog.csdn.net/abbuggy/article/details/8170899).
 
-* 检查是否安装curl: dpkg -s curl
-* 如没安装：sudo apt-get install curl
-* 执行: `curl -L get.rvm.io | bash -s stable`.
+* 检查是否安装curl: `dpkg -s curl`
+* 如没安装：`sudo apt-get install curl`
+* 执行: `curl -L get.rvm.io | bash -s stable`
 
 如出现错误：
 
@@ -126,12 +126,16 @@ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB8
   ```
 
 * 安装最新版本，执行：`rvm install ruby-head`,
-  使用前面设置的Ruby源，果然速度明显, 目前最新的是2.3.0.同时安装的还有rubygems(gem).
+
+  使用前面设置的Ruby源，果然速度明显.
+
+  目前最新的是2.3.0, 同时安装的还有rubygems(gem).
 
 * 设置当前Ruby: `rvm use ruby-2.3.0 --default`
 
 ## 安装Rails
 前提：已经安装了gem
+
 * （可选）为提高安装速度，更新gem源，参见[RubyGems 镜像（淘宝)](https://ruby.taobao.org/)：
 
 ```shell
@@ -179,7 +183,7 @@ sudo apt-get update
 sudo apt-get install nginx
 ```
 
-* 配置反向代理：修改文件`/etc/nginx/sites-available/default`(/etc/nginx/nginx.confg亦可)
+* 配置反向代理：修改文件`/etc/nginx/sites-available/default`或 `/etc/nginx/nginx.confg`
 
 ```
 upstream wwww.domain.com {
@@ -202,11 +206,11 @@ curl: (60) SSL certificate problem: unable to get local issuer certificate
 More details here: http://curl.haxx.se/docs/sslcerts.html
 ```
 
-当出现ld(GNU linker)文件不存在时，是因为优先使用了glibc(brew install glibc)中的ld,修改PATH环境变量
+当出现ld(GNU linker)文件不存在时，是因为优先使用了glibc(brew install glibc)中的ld,修改PATH环境变量.
 
 ## 安装Git服务器---gitblit
 前提：安装java(`sudo apt-get install openjdk-7-jre`),
-参考[在Ubuntu/Fedora/CentOS中安装Gitblit](http://www.open-open.com/lib/view/open1427258474981.html)
+可参考：[在Ubuntu/Fedora/CentOS中安装Gitblit](http://www.open-open.com/lib/view/open1427258474981.html)。
 
 * 下载：`wget http://dl.bintray.com/gitblit/releases/gitblit-1.6.2.tar.gz`
 * 解压：`tar xvf gitblit-1.6.2.tar.gz $GITBLIT_PATH`(其中$GITBLIT_PATH代表gitblit解压的位置，下同)
