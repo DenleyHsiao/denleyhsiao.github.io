@@ -98,6 +98,7 @@ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB8
 ```
 
 注：好象安装后已加入，但要自己执行下才生效（或者重新登陆）.
+
 * （可选）察看安装各版本时候的前提条件,执行：`rvm requirements`
 * （可选）更新到当前版本：`rvm get head`
 
@@ -124,9 +125,9 @@ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB8
   touch db
   ```
 
-* 安装最新版本，执行：`rvm install ruby-head`
-
+* 安装最新版本，执行：`rvm install ruby-head`,
   使用前面设置的Ruby源，果然速度明显, 目前最新的是2.3.0.同时安装的还有rubygems(gem).
+
 * 设置当前Ruby: `rvm use ruby-2.3.0 --default`
 
 ## 安装Rails
@@ -153,6 +154,7 @@ bundle config mirror.https://rubygems.org https://ruby.taobao.org
 
 ## 安装brew
 前提：已经安装了ruby
+
 * 执行：`ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/linuxbrew/go/install)"`
 * （可选）安装cask:
 
@@ -203,7 +205,7 @@ More details here: http://curl.haxx.se/docs/sslcerts.html
 当出现ld(GNU linker)文件不存在时，是因为优先使用了glibc(brew install glibc)中的ld,修改PATH环境变量
 
 ## 安装Git服务器---gitblit
-前提：安装java(`sudo apt-get install openjdk-7-jre`)
+前提：安装java(`sudo apt-get install openjdk-7-jre`),
 参考[在Ubuntu/Fedora/CentOS中安装Gitblit](http://www.open-open.com/lib/view/open1427258474981.html)
 
 * 下载：`wget http://dl.bintray.com/gitblit/releases/gitblit-1.6.2.tar.gz`
@@ -220,6 +222,7 @@ server.httpBindInterface = XXX.XXX.XXX.XXX  #当前服务器IP地址
 * 启动：`. $GITBLIT_PATH/gitblit.sh`
 
 如果要以服务启动，则：
+
 * 修改文件：`$GITBLIT_PATH/service-ubuntu.sh`
 
 ```shell
