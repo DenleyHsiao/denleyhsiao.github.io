@@ -5,7 +5,7 @@ date:   2016-04-18 19:34:00
 categories: ubuntu rails
 ---
 
-以下是本人根据自己的需求对ubuntu系统的定制安装。
+以下是本人根据自己的需求对ubuntu/os x系统的定制安装。
 
 ## 准备
 #### 裸机环境
@@ -242,3 +242,21 @@ GITBLIT_USER="denley"
 [Ruby on Rails 终极部署方案 nginx+mina+puma](https://segmentfault.com/a/1190000002918225)
 
 注：[Ruby Thin服务器](http://koda.iteye.com/blog/1162276)
+
+## RubyMotion
+只适用于OS X操作系统下，参考其[官网](http://www.rubymotion.com/cn),以下以Android开发为例。
+
+* 安装Motion: 从网站下载安装，此处下载的是免费版，只支持iOS,Android上的开发（而且仅限于最新版本的SDK)。
+* 安装SDK、模拟器（Image后缀的):（可以选择安装其它版本）
+`motion android-setup`
+* 创建、启动模拟器:（在上面选择安装中，通过菜单）
+`Tools > Manage AVDs (Create/Start)``
+* 创建项目: `motion create --template=android PROJECT_NAME`
+* 运行项目:
+
+```shell
+rake         # 模拟器启动的前提下
+rake device  # 设备连接的前提下
+```
+
+* 更多操作执行: `motion help/motion create --help`
