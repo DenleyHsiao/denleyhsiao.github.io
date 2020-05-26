@@ -1,0 +1,3 @@
+[submodule "source/kbase"]
+	path = source/kbase
+	url = https://github.com/denleyhsiao/kbase.git
