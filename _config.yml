@@ -3,19 +3,19 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
+title: 晓月刀的博客
+subtitle: '多动手、勤思考'
+description: '晓月刀的博客'
 keywords:
-author: John Doe
-language: en
-timezone: ''
+author: Denley Hsiao
+language: zh-CN
+timezone: 'Asia/Shanghai'
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: https://blog.justtodo.com
 root: /
-permalink: :year/:month/:day/:title/
+permalink: :title/
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
@@ -64,6 +64,11 @@ index_generator:
 # Category & Tag
 default_category: uncategorized
 category_map:
+  晓月刀说: say
+  代码分析师: coder
+  技术: tech
+  工具: tool
+  杂项: misc
 tag_map:
 
 # Metadata elements
@@ -99,3 +104,28 @@ theme: light_cn
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: ''
+
+markdown:
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: true
+    linkify: true
+    typographer: true
+    quotes: '“”‘’'
+  plugins:
+    - markdown-it-checkbox
+    - markdown-it-abbr
+    - markdown-it-emoji
+    - markdown-it-footnote
+  anchors:
+    # Minimum level for ID creation. (Ex. h2 to h6)
+    level: 1
+    # A suffix that is prepended to the number given if the ID is repeated.
+    collisionSuffix: 'v'
+    # If `true`, creates an anchor tag with a permalink besides the heading.
+    permalink: false
+    # Class used for the permalink anchor tag.
+    permalinkClass: header-anchor
+    # The symbol used to make the permalink
+    permalinkSymbol: ¶

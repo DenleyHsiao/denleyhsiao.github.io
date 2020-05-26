@@ -22,6 +22,7 @@ jobs:
         rm -r source/_posts/*
         sudo mv source/kbase/assets  source/
         sudo mv source/kbase/* source/_posts/
+        sudo mv -f misc/light_cn_config.yml themes/light_cn/_config.yml
 
     - name: Build and deploy
       uses: JamesIves/github-pages-deploy-action@releases/v2
