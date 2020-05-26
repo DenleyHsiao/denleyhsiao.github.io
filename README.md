@@ -10,3 +10,4 @@
 # 注意
 * 自动部署中使用了`secret.FROM_BLOG_ACCESS_TOKEN`:在项目的Settings/Secrets中新增，
 其值通过个人账户下的Settings/Developer Settings/Personal access tokens生成（此值只在第一次生成时显示）
+* 在修改src分支前先执行`./misc/git_update.sh`
