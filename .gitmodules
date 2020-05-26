@@ -1,3 +1,6 @@
 [submodule "source/kbase"]
 	path = source/kbase
 	url = https://github.com/denleyhsiao/kbase.git
+[submodule "themes/light_cn"]
+	path = themes/light_cn
+	url = https://github.com/pengloo53/Hexo-theme-light_cn
