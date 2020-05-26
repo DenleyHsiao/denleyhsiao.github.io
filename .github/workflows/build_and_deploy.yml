@@ -1,0 +1,33 @@
+name: build_and_deploy
+on:
+  push:
+    branches:
+      - src
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Checkout submodules
+      uses: textbook/git-checkout-submodule-action@master
+      with:
+        remote: true
+
+    - name: Copy files
+      run: |
+        cp CNAME source/
+        cp README.md source/
+        rm -r source/_posts/*
+        sudo mv source/kbase/assets  source/
+        sudo mv source/kbase/* source/_posts/
+
+    - name: Build and deploy
+      uses: JamesIves/github-pages-deploy-action@releases/v2
+      env:
+        ACCESS_TOKEN: ${{ secrets.FROM_BLOG_ACCESS_TOKEN }}
+        BASE_BRANCH: src
+        BRANCH: master
+        FOLDER: public
+        BUILD_SCRIPT: npm i -g hexo && npm install && hexo generate
