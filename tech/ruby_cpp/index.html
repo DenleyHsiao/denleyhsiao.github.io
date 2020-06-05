@@ -1,0 +1,287 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ruby与C++交互指南 | 晓月刀的博客</title>
+  <meta name="author" content="Denley Hsiao">
+  
+  <meta name="description" content="晓月刀的博客">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Ruby与C++交互指南"/>
+  <meta property="og:site_name" content="晓月刀的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="alternate" href="/atom.xml" title="晓月刀的博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <!-- favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!-- Font-Awesome -->
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <header id="header"><div class= "header-content inner">
+	<div class = "alignleft col-one">
+		
+			<div class='avatar'>
+				<img src = "/assets/images/avator.jpeg">
+              </div>
+		
+		<div class="header-div">
+		    <h1><a href="/">晓月刀的博客</a></h1>
+		    <h2><a href="/">多动手、勤思考</a></h2>
+		</div>
+	</div>
+	<div class = "alignright col-two">
+		
+	</div>
+	<div class="clearfix"></div>
+</div>
+
+<div class= "header-nav">
+	<div class='header-nav-content inner'>
+		<div id="main-nav" class="alignleft">
+		    		
+		    		  <a href="/"><i class="fa fa-home"></i>首页</a>
+		    		
+		    		  <a href="/archives"><i class="fa fa-archive"></i>归档</a>
+		    		
+		    		  <a href="https://kbase.justtodo.com/" target="_blank" rel="noopener"><i class="fa fa-book"></i>电子书</a>
+		    		
+		</div>
+		<div id="sub-nav" class="alignright">
+		    
+		      <a href="/about"><i class="fa fa-user"></i>关于我</a>
+		    
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</div>
+</header>
+    <div id="content" class="inner">
+      <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+        <div class="icon"></div>
+        
+        <time datetime="2017-07-12T01:00:00.000Z"><a href="/tech/ruby_cpp/">2017-07-12</a></time>
+        
+  
+    <h1 class="title">Ruby与C++交互指南</h1>
+  
+
+    </header>
+
+    <div class="entry">
+      
+        
+    <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SWIG方式"><span class="toc-text">SWIG方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Rice方式"><span class="toc-text">Rice方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装-1"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-1"><span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+    </div>
+
+        <p>Ruby与C++交互主要有以下两种方式: </p>
+<ul>
+<li>SWIG方式</li>
+<li>Rice方式</li>
+</ul>
+<p>GOOGLE了一下，关于它们使用的看的有点乱，无法完整做出一个demo,最后都是通过运行它们的示例再学习使用的。</p>
+<a id="more"></a>
+
+<h1 id="SWIG方式"><a href="#SWIG方式" class="headerlink" title="SWIG方式"></a>SWIG方式</h1><p>SWIG方式是广泛使用的方式，它支持包括Ruby在内的十几种语言调用C++库 </p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>执行命令 <code>brew install swig</code></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><ul>
+<li>生成待调用函数</li>
+</ul>
+<p>my_math.h</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __MY_MATH_H__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __MY_MATH_H__</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="function"><span class="keyword">extern</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>my_math.cpp</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"my_math.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>生成extconf.rb文件</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">'mkmf'</span></span><br><span class="line"><span class="comment">#是example.cpp的文件名，可任意定义(最好与要公开的RUBY类一致)</span></span><br><span class="line">create_makefile(<span class="string">'example'</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>生成example.i文件</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">%<span class="keyword">module</span> example</span><br><span class="line"></span><br><span class="line">%<span class="keyword">inline</span> %&#123;</span><br><span class="line"> <span class="function"><span class="keyword">extern</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</span><br><span class="line">%&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>生成测试程序run_me.rb</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">require_relative <span class="string">'Example'</span></span><br><span class="line"></span><br><span class="line">a, b = <span class="number">1</span>, <span class="number">1</span></span><br><span class="line">puts <span class="string">"NOTICE: Result will auto increase 1"</span></span><br><span class="line">puts <span class="string">"<span class="subst">#&#123;a&#125;</span> + <span class="subst">#&#123;b&#125;</span> = <span class="subst">#&#123;Example.add(a, b)&#125;</span>"</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">swig -ruby example.i</span><br><span class="line">ruby extconf.rb</span><br><span class="line">make</span><br><span class="line">ruby run_me.rb</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Rice方式"><a href="#Rice方式" class="headerlink" title="Rice方式"></a>Rice方式</h1><h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><p>执行命令 <code>gem install rice</code></p>
+<h2 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h2><p>可以先从<a href="https://github.com/jasonroelofs/rice" target="_blank" rel="noopener">源码</a>中的示例入手，以下只写记录与Rice不同的地方。</p>
+<ul>
+<li>修改extconf.rb文件</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#不能使用'mkmf', 不然下面include ‘rice/Class.hpp’时会找不到rice</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'mkmf-rice'</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改example.i为example.cpp文件</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"rice/Class.hpp"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"my_math.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> Rice;</span><br><span class="line"></span><br><span class="line"><span class="comment">//函数名格式：必须是"Init_当前文件名"</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> <span class="title">Init_example</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">//Example为最终RUBY看到的类名</span></span><br><span class="line">  Class tmp_ = define_class(<span class="string">"Example"</span>)</span><br><span class="line">    .define_method(<span class="string">"add"</span>, &amp;add);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改测试程序run_me.rb文件</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">puts <span class="string">"<span class="subst">#&#123;a&#125;</span> + <span class="subst">#&#123;b&#125;</span> = <span class="subst">#&#123;Example.new.add(a, b)&#125;</span>"</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行</li>
+</ul>
+<p>不执行此命令 <del><code>swig -ruby example.i</code></del></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="/samples/RubyCppTest.tar.gz">示例下载</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/opensource/os-extendruby/index.html#list1" target="_blank" rel="noopener">在 C++ 中使用 Rice 构建 Ruby 扩展</a></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>, <a href="/categories/tech/C/">C++</a>
+  </div>
+
+        
+  <div class="tags">
+    <a href="/tags/Ruby/">Ruby</a>
+  </div>
+
+        
+  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+  <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- 返回顶部 -->
+<div id="toTop">
+	<a href="#">▲</a>
+	<a href="#footer">▼</a>
+</div></div></div>
+      <aside id="sidebar" class="alignright">
+        
+           <div class="search">
+  <form action="/search/index.html" method="get" accept-charset="utf-8">
+<!--     <input type="search" name="wd"results="0" placeholder="搜索">
+    <input type="hidden" name="wd" value="site:blog.justtodo.com"> -->
+     <input type="text" id="search" class="st-default-search-input" placeholder="搜索" style="height: 100%" />
+  </form>
+</div> 
+        
+          
+<div class="widget tag">
+  <h3 class="title" id="categories">分类</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coder/">代码分析师</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/">工具</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Markdown/">Markdown</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Vagrant/">Vagrant</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/AI/">AI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/C/">C++</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/Rails/">Rails</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/say/">晓月刀说</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/say/%E6%BA%90%E7%A0%81/">源码</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/say/%E9%80%BB%E8%BE%91/">逻辑</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/misc/">杂项</a><span class="category-list-count">2</span></li></ul> 
+</div>
+ 
+
+        
+          
+  <div class="widget tag">
+    <h3 class="title">友情链接</h3>
+      <ul class="entry">
+        
+          <li class='link'><a href='http://xiaoyun.farbox.com' target="_blank" rel="noopener">晓晓博客</a></li>
+        
+          <li class='link'><a href='http://www.ituring.com.cn/users/136808' target="_blank" rel="noopener">图灵社区</a></li>
+        
+      </ul>
+  </div>
+
+
+        
+          
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/Book/" style="font-size: 10px;">Book</a> <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CI/" style="font-size: 15px;">CI</a> <a href="/tags/Database/" style="font-size: 15px;">Database</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Third-Party/" style="font-size: 20px;">Third-Party</a> <a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a> <a href="/tags/WeChat/" style="font-size: 10px;">WeChat</a>
+  </div>
+</div>
+
+        
+          
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+	<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">公元 2018 年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">公元 2017 年</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">公元 2016 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">公元 2015 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/">公元 2011 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/">公元 2010 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/">公元 2009 年</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/">公元 2008 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/">公元 2007 年</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+        
+      </aside>
+      <div class="clearfix"></div>
+    </div>
+  <footer id="footer"><div class="footer-content inner">
+  <div class="alignleft">
+  
+    &copy; 2020 Denley Hsiao
+    
+  </div>
+  <div class="alignright">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme
+    <a href="https://github.com/pengloo53/Hexo-theme-light_cn" target="_blank" rel="noopener">light_cn</a>
+  </div>
+
+  <div>
+    Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a>
+  </div>
+  
+  <div class="clearfix"></div>
+</div></footer>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<!-- calendar widget -->
+
+
+<!-- 百度统计 -->
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?9acf0cedd48dc53be256ede5a98c2aaa";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<!-- fancybox -->
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+</body>
+</html>

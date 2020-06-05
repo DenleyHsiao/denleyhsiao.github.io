@@ -1,0 +1,291 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Rails启动分析 | 晓月刀的博客</title>
+  <meta name="author" content="Denley Hsiao">
+  
+  <meta name="description" content="晓月刀的博客">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Rails启动分析"/>
+  <meta property="og:site_name" content="晓月刀的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="alternate" href="/atom.xml" title="晓月刀的博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <!-- favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!-- Font-Awesome -->
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <header id="header"><div class= "header-content inner">
+	<div class = "alignleft col-one">
+		
+			<div class='avatar'>
+				<img src = "/assets/images/avator.jpeg">
+              </div>
+		
+		<div class="header-div">
+		    <h1><a href="/">晓月刀的博客</a></h1>
+		    <h2><a href="/">多动手、勤思考</a></h2>
+		</div>
+	</div>
+	<div class = "alignright col-two">
+		
+	</div>
+	<div class="clearfix"></div>
+</div>
+
+<div class= "header-nav">
+	<div class='header-nav-content inner'>
+		<div id="main-nav" class="alignleft">
+		    		
+		    		  <a href="/"><i class="fa fa-home"></i>首页</a>
+		    		
+		    		  <a href="/archives"><i class="fa fa-archive"></i>归档</a>
+		    		
+		    		  <a href="https://kbase.justtodo.com/" target="_blank" rel="noopener"><i class="fa fa-book"></i>电子书</a>
+		    		
+		</div>
+		<div id="sub-nav" class="alignright">
+		    
+		      <a href="/about"><i class="fa fa-user"></i>关于我</a>
+		    
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</div>
+</header>
+    <div id="content" class="inner">
+      <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+        <div class="icon"></div>
+        
+        <time datetime="2017-09-07T01:00:00.000Z"><a href="/tech/rails_start/">2017-09-07</a></time>
+        
+  
+    <h1 class="title">Rails启动分析</h1>
+  
+
+    </header>
+
+    <div class="entry">
+      
+        
+    <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#选择很重要"><span class="toc-text">选择很重要</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#选择怎么开始"><span class="toc-text">选择怎么开始</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#方法更重要"><span class="toc-text">方法更重要</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#多动手"><span class="toc-text">多动手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多动脑"><span class="toc-text">多动脑</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开始分析"><span class="toc-text">开始分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#运行分析"><span class="toc-text">运行分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码分析"><span class="toc-text">源码分析</span></a></li></ol></li></ol>
+    </div>
+
+        <p>学习应该讲究方法，这样可以事半功倍，本文通过一个老手的角度，在转入新的领域时，是如何快速学习的</p>
+<a id="more"></a>
+
+<p>注：后文中的老手代指熟悉C++的人，而新手代指准备学习Ruby语言的人，其实学习方法都是想通的，跟语言无关</p>
+<h1 id="选择很重要"><a href="#选择很重要" class="headerlink" title="选择很重要"></a>选择很重要</h1><h2 id="选择怎么开始"><a href="#选择怎么开始" class="headerlink" title="选择怎么开始"></a>选择怎么开始</h2><p>万事开头难，在没有老师或项目的环境下，只能是看书，俗话说的好：“读书破万卷, 下笔如有神”，但时间有限，“万卷”中选择看哪些书又成了问题，<br>怎么办?</p>
+<ul>
+<li>选择经典的：找baidu, 逛论坛</li>
+<li>选择英文版的：原因我就不说了，前提是你的英语还行（英语不行也不能入这行啊）</li>
+</ul>
+<p>我目前选择的是：</p>
+<ul>
+<li>《Programming Ruby中文版第二版》：经典，而且它是中文版（我的英语不行，没办法，入错行了），但只支持1.8.7的RUBY</li>
+<li>《Pragmatic.rogramming.Ruby.1.9.and.2.0.4th.Edition》，上本书的第四版，原因是它支持较新的RUBY（1.9/2.0），但是英文版</li>
+</ul>
+<p>##为什么选择分析rails</p>
+<ul>
+<li>首先，它是一个GEM，一个在目前很火的GEM，这样分析起来就会很有成就感；</li>
+<li>然后，GEM相当于一个隔离层，让调用方与被调用方的关注分离，只要保证向外提供的API一致就可以了：实现方只要关注如何优化实现，而调用方只要关注<br>自己的业务；</li>
+<li>最后，就是Ruby中的GEM自动化程度很好，轻松几步就能生成自己的demo, 然后发布到rubygems网站上，他人就可以立即使用你的成果。</li>
+</ul>
+<p>可能你要问了，选择这么重要，我又怎么知道目前选择学习的方向是对的呢，呵呵，前面不是说过“读书破…”, 这里说下我选择的理由吧</p>
+<ul>
+<li>第一，因为我是老手，以前学习时栽过跟头，又对DLL有过深入学习，有没有发现，在封装方面，GEM是不是有些像DLL（在跨语言调用方面，目前还知道）；</li>
+<li>然后，我也是在没法选择的情况下，先学RUBY语法，也是学得枯燥，在看到GEM这章时就有动手的冲动—这是好的学习境界，但前面的经历也要必须的</li>
+</ul>
+<h1 id="方法更重要"><a href="#方法更重要" class="headerlink" title="方法更重要"></a>方法更重要</h1><h2 id="多动手"><a href="#多动手" class="headerlink" title="多动手"></a>多动手</h2><p>学习语言最重要的是学以致用，对于新手，强烈建议边看书边对示例进行验证，但对于我这样一个从C++转入Ruby的老手，这一招实在是很难坚持下去，怎么办呢？</p>
+<p>办法还是有的：先利用老手的优势，把Ruby的语法过一遍，呵呵，一看都还懂，只是有点枯燥（没办法，前面不是说了入错行了吗）—如果没耐心全看的话，<br>可以与你熟悉的比较，着看其区别就可以了。这个RUBY网站就做的不错，从其它语言转过来的老手可以往这看：<a href="ruby-from-other-langauges">老手必看</a>。<br>但基本上没恒心去一个一个在RUBY环境中验证，怎么办呢？</p>
+<h2 id="多动脑"><a href="#多动脑" class="headerlink" title="多动脑"></a>多动脑</h2><h1 id="开始分析"><a href="#开始分析" class="headerlink" title="开始分析"></a>开始分析</h1><h2 id="运行分析"><a href="#运行分析" class="headerlink" title="运行分析"></a>运行分析</h2><ul>
+<li><p>首先准备好环境，安装ruby, rails:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rvm install ruby-2.2.2</span><br><span class="line">rvm use ruby-2.2.2 --default</span><br><span class="line">gem install rails</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行下，看效果：<code>rails new demo</code></p>
+</li>
+<li><p>rails为什么可以运行起来：<code>which rails</code><br>输出可执行文件rails的绝对路径,这个文件所在的路径又是怎么找到的呢?</p>
+</li>
+<li><p>检查下全局路径：<code>echo $PATH</code><br>输出的里面是不是有rails所在的路径</p>
+</li>
+<li><p>rails这个文件是怎么来的呢：<code>gem install rails</code><br>GEM 在我们进行安装时自动生成的（最终运行的是gem包中的bin目录下同名可执行文件）</p>
+</li>
+<li><p>其所在的目录又是怎么加到$PATH中呢：<code>rvm use ruby-2.2.2 --default</code><br>安装RUBY时， 可以通过以下切换后的变化来验证：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rvm install ruby-2.2.0(如果没安装）</span><br><span class="line">rvm use ruby-2.2.0</span><br><span class="line">echo $PATH</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><ul>
+<li><p>现在开始看看rails文件内容</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">'rubygems'</span></span><br><span class="line"></span><br><span class="line">version = <span class="string">"&gt;= 0.a"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用命令行指定要求运行的railties版本（如：rails _4.2.4_ s）</span></span><br><span class="line"><span class="string">``</span><span class="string">`ruby</span></span><br><span class="line"><span class="string">if ARGV.first</span></span><br><span class="line"><span class="string">  str = ARGV.first</span></span><br><span class="line"><span class="string">  str = str.dup.force_encoding("BINARY") if str.respond_to? :force_encoding</span></span><br><span class="line"><span class="string">  if str =~ /\A_(.*)_\z/ and Gem::Version.correct?($1) then</span></span><br><span class="line"><span class="string">    version = $1</span></span><br><span class="line"><span class="string">    ARGV.shift</span></span><br><span class="line"><span class="string">  end</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 根据版本号运行程序</span></span><br><span class="line"><span class="string">gem 'railties', version</span></span><br><span class="line"><span class="string">load Gem.bin_path('railties', 'rails', version)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>跟踪第16行的gem方法，进入keneral_gem.rb<br>首先说明下，这里的gem方法同与Gemfile中的gem方法相同，不过后者完成下载、部署、以及载入</p>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gem</span><span class="params">(gem_name, *requirements)</span></span> <span class="comment"># :doc:</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="comment"># *requirements参数带入版本要求的正则表达式</span></span><br><span class="line">  dep = Gem::Dependency.new(gem_name, *requirements)</span><br><span class="line"></span><br><span class="line">  loaded = Gem.loaded_specs[gem_name]</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span> <span class="keyword">if</span> loaded &amp;&amp; dep.matches_spec?(loaded)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 确定gem_name使用的版本</span></span><br><span class="line">  spec = dep.to_spec</span><br><span class="line"></span><br><span class="line">  Gem::LOADED_SPECS_MUTEX.synchronize &#123;</span><br><span class="line">    <span class="comment"># 下文剖析</span></span><br><span class="line">    spec.activate</span><br><span class="line">  &#125; <span class="keyword">if</span> spec</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>进入gem方法中的dep.to_spec,到了dependency.rb文件中：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">matching_specs</span> <span class="title">platform_only</span> = <span class="title">false</span></span></span><br><span class="line">  matches = Gem::Specification.stubs.find_all &#123; <span class="params">|spec|</span></span><br><span class="line">    <span class="keyword">self</span>.name === spec.name <span class="keyword">and</span> <span class="comment"># <span class="doctag">TODO:</span> == instead of ===</span></span><br><span class="line">      requirement.satisfied_by? spec.version</span><br><span class="line">  &#125;.map(&amp;<span class="symbol">:to_spec</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> platform_only</span><br><span class="line">    matches.reject! &#123; <span class="params">|spec|</span></span><br><span class="line">      <span class="keyword">not</span> Gem::Platform.match spec.platform</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 通过排序，最新的版本就是last了</span></span><br><span class="line">  matches.sort_by &#123; <span class="params">|s|</span> s.sort_obj &#125; <span class="comment"># HACK: shouldn't be needed</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">to_specs</span></span></span><br><span class="line">  matches = matching_specs <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># <span class="doctag">TODO:</span> check Gem.activated_spec[self.name] in case matches falls outside</span></span><br><span class="line">  <span class="comment"># 错误处理</span></span><br><span class="line">  <span class="keyword">if</span> matches.empty? <span class="keyword">then</span></span><br><span class="line">    ...</span><br><span class="line">    raise error</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># <span class="doctag">TODO:</span> any other resolver validations should go here</span></span><br><span class="line"></span><br><span class="line">  matches</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">to_spec</span></span></span><br><span class="line">  matches = <span class="keyword">self</span>.to_specs</span><br><span class="line"></span><br><span class="line">  active = matches.find &#123; <span class="params">|spec|</span> spec.activated? &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> active <span class="keyword">if</span> active</span><br><span class="line"></span><br><span class="line">  matches.delete_if &#123; <span class="params">|spec|</span> spec.version.prerelease? &#125; <span class="keyword">unless</span> prerelease?</span><br><span class="line">  <span class="comment"># 哈哈，找到了，使用最新版本</span></span><br><span class="line">  matches.last</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>原来，dep.to_spec方法通过正则匹配出来的版本号，最终确定了{gem_name}所在的目录</p>
+<ul>
+<li>进入gem方法中的spec.activate</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##</span></span><br><span class="line"><span class="comment"># Activate this spec, registering it as a loaded spec and adding</span></span><br><span class="line"><span class="comment"># it's lib paths to $LOAD_PATH. Returns true if the spec was</span></span><br><span class="line"><span class="comment"># activated, false if it was previously activated. Freaks out if</span></span><br><span class="line"><span class="comment"># there are conflicts upon activation.</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">activate</span></span></span><br><span class="line"> other = Gem.loaded_specs[<span class="keyword">self</span>.name]</span><br><span class="line"> <span class="keyword">if</span> other <span class="keyword">then</span></span><br><span class="line">   check_version_conflict other</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line"> <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"> raise_if_conflicts</span><br><span class="line"></span><br><span class="line"> activate_dependencies</span><br><span class="line"> add_self_to_load_path</span><br><span class="line"></span><br><span class="line"> Gem.loaded_specs[<span class="keyword">self</span>.name] = <span class="keyword">self</span></span><br><span class="line"> @activated = <span class="literal">true</span></span><br><span class="line"> @loaded = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"> <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>前面{gem_name}目录确定，这里就是将此目录下的lib目录就可以加入$LOAD_PATH, 最终点亮后续所有有依赖此GEM的“require ‘{gem_name}’”</p>
+<ul>
+<li><p>分析完gem方法，现在就剩load方法了，由于前一gem方法，此处就容易懂了：”load/require ‘{gem_name}’”就可以定位到相应的.rb文件载入了，这里是railties.rb文件了—这才是真正的启动程序</p>
+</li>
+<li><p>下面说下版本号与文件名分离的好处：</p>
+</li>
+</ul>
+<blockquote>
+<ol>
+<li>能适应版本号统一在Gemfile中，隔离变化，并能像全面一样动态生成全路径</li>
+<li>其它依赖中引用时不用写”require ‘rails-4.2.5’”, 同样隔离变化</li>
+</ol>
+</blockquote>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>, <a href="/categories/tech/Rails/">Rails</a>
+  </div>
+
+        
+        
+  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+  <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- 返回顶部 -->
+<div id="toTop">
+	<a href="#">▲</a>
+	<a href="#footer">▼</a>
+</div></div></div>
+      <aside id="sidebar" class="alignright">
+        
+           <div class="search">
+  <form action="/search/index.html" method="get" accept-charset="utf-8">
+<!--     <input type="search" name="wd"results="0" placeholder="搜索">
+    <input type="hidden" name="wd" value="site:blog.justtodo.com"> -->
+     <input type="text" id="search" class="st-default-search-input" placeholder="搜索" style="height: 100%" />
+  </form>
+</div> 
+        
+          
+<div class="widget tag">
+  <h3 class="title" id="categories">分类</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coder/">代码分析师</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/">工具</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Markdown/">Markdown</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Vagrant/">Vagrant</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/AI/">AI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/C/">C++</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/Rails/">Rails</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/say/">晓月刀说</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/say/%E6%BA%90%E7%A0%81/">源码</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/say/%E9%80%BB%E8%BE%91/">逻辑</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/misc/">杂项</a><span class="category-list-count">2</span></li></ul> 
+</div>
+ 
+
+        
+          
+  <div class="widget tag">
+    <h3 class="title">友情链接</h3>
+      <ul class="entry">
+        
+          <li class='link'><a href='http://xiaoyun.farbox.com' target="_blank" rel="noopener">晓晓博客</a></li>
+        
+          <li class='link'><a href='http://www.ituring.com.cn/users/136808' target="_blank" rel="noopener">图灵社区</a></li>
+        
+      </ul>
+  </div>
+
+
+        
+          
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/Book/" style="font-size: 10px;">Book</a> <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CI/" style="font-size: 15px;">CI</a> <a href="/tags/Database/" style="font-size: 15px;">Database</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Third-Party/" style="font-size: 20px;">Third-Party</a> <a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a> <a href="/tags/WeChat/" style="font-size: 10px;">WeChat</a>
+  </div>
+</div>
+
+        
+          
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+	<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">公元 2018 年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">公元 2017 年</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">公元 2016 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">公元 2015 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/">公元 2011 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/">公元 2010 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/">公元 2009 年</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/">公元 2008 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/">公元 2007 年</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+        
+      </aside>
+      <div class="clearfix"></div>
+    </div>
+  <footer id="footer"><div class="footer-content inner">
+  <div class="alignleft">
+  
+    &copy; 2020 Denley Hsiao
+    
+  </div>
+  <div class="alignright">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme
+    <a href="https://github.com/pengloo53/Hexo-theme-light_cn" target="_blank" rel="noopener">light_cn</a>
+  </div>
+
+  <div>
+    Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a>
+  </div>
+  
+  <div class="clearfix"></div>
+</div></footer>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<!-- calendar widget -->
+
+
+<!-- 百度统计 -->
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?9acf0cedd48dc53be256ede5a98c2aaa";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<!-- fancybox -->
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+</body>
+</html>

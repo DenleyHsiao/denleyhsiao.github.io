@@ -1,0 +1,296 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Rails问题集 | 晓月刀的博客</title>
+  <meta name="author" content="Denley Hsiao">
+  
+  <meta name="description" content="晓月刀的博客">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Rails问题集"/>
+  <meta property="og:site_name" content="晓月刀的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="alternate" href="/atom.xml" title="晓月刀的博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <!-- favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!-- Font-Awesome -->
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <header id="header"><div class= "header-content inner">
+	<div class = "alignleft col-one">
+		
+			<div class='avatar'>
+				<img src = "/assets/images/avator.jpeg">
+              </div>
+		
+		<div class="header-div">
+		    <h1><a href="/">晓月刀的博客</a></h1>
+		    <h2><a href="/">多动手、勤思考</a></h2>
+		</div>
+	</div>
+	<div class = "alignright col-two">
+		
+	</div>
+	<div class="clearfix"></div>
+</div>
+
+<div class= "header-nav">
+	<div class='header-nav-content inner'>
+		<div id="main-nav" class="alignleft">
+		    		
+		    		  <a href="/"><i class="fa fa-home"></i>首页</a>
+		    		
+		    		  <a href="/archives"><i class="fa fa-archive"></i>归档</a>
+		    		
+		    		  <a href="https://kbase.justtodo.com/" target="_blank" rel="noopener"><i class="fa fa-book"></i>电子书</a>
+		    		
+		</div>
+		<div id="sub-nav" class="alignright">
+		    
+		      <a href="/about"><i class="fa fa-user"></i>关于我</a>
+		    
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</div>
+</header>
+    <div id="content" class="inner">
+      <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+        <div class="icon"></div>
+        
+        <time datetime="2017-12-01T01:00:00.000Z"><a href="/tech/rails_question/">2017-12-01</a></time>
+        
+  
+    <h1 class="title">Rails问题集</h1>
+  
+
+    </header>
+
+    <div class="entry">
+      
+        
+    <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用Postgre数据库"><span class="toc-text">使用Postgre数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用二级域名"><span class="toc-text">使用二级域名</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关闭生成器的自动功能"><span class="toc-text">关闭生成器的自动功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#找不到Gem"><span class="toc-text">找不到Gem</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试失败"><span class="toc-text">测试失败</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#路由错误"><span class="toc-text">路由错误</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#令牌无效"><span class="toc-text">令牌无效</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+    </div>
+
+        <p>Rails问题何其多</p>
+<a id="more"></a>
+
+<ul>
+<li><p>对任意第三方rails程序，不要直接使用 <code>bundle install</code>, 最好使用<code>bundle update</code></p>
+</li>
+<li><p>Rails中出现<code>incompatible encoding regexp match (UTF-8 regexp with ASCII-8BIT string)</code>时<br>原因是httparty版本问题，执行：<code>bundle update</code></p>
+</li>
+<li><p>Rails服务停止：<code>kill -9 $(ps -A | grep ruby)</code></p>
+</li>
+<li><p>如果要测试redirect_to后的页面内容，要先执行<code>follow_redirect!</code>, 如果中间有几个重定向，则同样需要执行几个<code>follow_redirect!</code>,如无法确定当前页面，可以通过以下命令先查看其内容：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">assert_equal <span class="string">''</span>, body</span><br></pre></td></tr></table></figure></li>
+<li><p>rails只有<code>has_and_belongs_to_many</code>关系，没有has_many_and_belongs_to关系。</p>
+</li>
+<li><p>Micropost/Tag互相建立has_and_belongs_to_many关系后,用“micropost[tag_ids][]”接收输入时，要在micropost_params中增加:tag_ids:[];<br>详情搜索：rails 健壮参数</p>
+</li>
+<li><p>Micropost/Tag互相建立has_and_belongs_to_many关系后，还要通过以下命令建立中间表：<code>rails g migration CreateJoinTable micropost tag</code> </p>
+</li>
+<li><p>在User/Micropost的<code>has_many microposts</code>一对多关系中,完整描述是：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">has_many microposts, <span class="symbol">class_name:</span>”Micropost“, <span class="symbol">foreigh_key:</span>”user_id“</span><br></pre></td></tr></table></figure>
+<p>最好在最后还加上：<code>dependent: :destroy</code></p>
+</li>
+<li><p>Rails controller中render渲染的template肯定不是partial, 而view中由partial渲染的template内部不能再有render渲染</p>
+</li>
+<li><p>当有多个migration对同一表(user)结构进行修改时，建议后续表作初始化操作时使用如下方式：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User.connection.schema_cache.clear!</span><br><span class="line">User.reset_column_information</span><br></pre></td></tr></table></figure>
+<p>此“初始化操作”是否应该做完就删除，因为重新做: r db:drop ==&gt; db:migrate 时会失败；</p>
+</li>
+<li><p>Rails 5为什么不缺省打开<code>gem therubyracer</code><br>更不错的可选方案nodejs, 在ubuntu上安装如下：<code>sudo apt-get install nodejs</code></p>
+</li>
+</ul>
+<h1 id="使用Postgre数据库"><a href="#使用Postgre数据库" class="headerlink" title="使用Postgre数据库"></a>使用Postgre数据库</h1><p>在<code>Gemfile</code>中增加<code>gem &#39;pg&#39;</code>, 再安装其依赖库:</p>
+<ul>
+<li>For Ubuntu systems: sudo apt-get install libpq-dev</li>
+<li>On Red Hat Linux (RHEL) systems: yum install postgresql-devel</li>
+<li>For Mac Homebrew: brew install postgresql</li>
+<li>For Mac MacPorts PostgreSQL: gem install pg – –with-pg-config=/opt/local/lib/postgresql[version number]/bin/pg_config</li>
+<li>For OpenSuse: zypper in postgresql-devel</li>
+</ul>
+<h1 id="使用二级域名"><a href="#使用二级域名" class="headerlink" title="使用二级域名"></a>使用二级域名</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F;e_car &#123;</span><br><span class="line">    root &#x2F;path&#x2F;to&#x2F;public;</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;localhost:3003&#x2F;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，这时3003后的‘/‘不能省略，否则意思完全不同</p>
+<ol start="2">
+<li><p>在config/environments/production中设置：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.relative_url_root = <span class="string">'/e_car'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在config/routes中设置scope:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">scope <span class="string">'e_car'</span> <span class="keyword">do</span></span><br><span class="line">    ......</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="关闭生成器的自动功能"><a href="#关闭生成器的自动功能" class="headerlink" title="关闭生成器的自动功能"></a>关闭生成器的自动功能</h1><p>在<code>config/application.rb</code>中增加:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">config.generators <span class="keyword">do</span> <span class="params">|g|</span></span><br><span class="line">  g.assets <span class="literal">false</span></span><br><span class="line">  g.helper <span class="literal">false</span></span><br><span class="line">  g.test_framework <span class="literal">false</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="找不到Gem"><a href="#找不到Gem" class="headerlink" title="找不到Gem"></a>找不到Gem</h1><p>现象：用到<code>assert_template</code>时，如果只是在<code>group :test</code>中加入<code>gem rails-controller-testing</code>，还是会出现错误提示</p>
+<blockquote>
+<p>此Gem找不到</p>
+</blockquote>
+<p>方法：加入到<code>group :development, :test</code>中即可</p>
+<p>注；此时加回到<code>group :test</code>也能通过。</p>
+<h1 id="测试失败"><a href="#测试失败" class="headerlink" title="测试失败"></a>测试失败</h1><p>现象：运行以下测试时失败</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">relation = UserRelation.new(<span class="symbol">follower_id:</span><span class="number">1</span>, <span class="symbol">followed_id:</span><span class="number">2</span>)</span><br><span class="line">assert relation.valid?</span><br></pre></td></tr></table></figure>
+
+<p>原因：因为UserRelation模型中指定了它与user的关系。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">belongs_to <span class="symbol">:follower</span>, <span class="symbol">class_name:</span>“User”</span><br><span class="line">belongs_to <span class="symbol">:followed</span>, <span class="symbol">class_name:</span>”User“</span><br></pre></td></tr></table></figure>
+
+<p>方法：在user.yml中指定对应id的user</p>
+<h1 id="路由错误"><a href="#路由错误" class="headerlink" title="路由错误"></a>路由错误</h1><p>现象：<code>ActionController::RoutingError (No route matches [GET] &quot;/assets/application-XXXX</code></p>
+<p>原因：production环境下rails的安全控制</p>
+<p>方法：增加环境变量<code>export RAILS_SERVE_STATIC_FILES=xxx(任意值）</code></p>
+<h1 id="令牌无效"><a href="#令牌无效" class="headerlink" title="令牌无效"></a>令牌无效</h1><p>现象：<code>ActionController::InvalidAuthenticityToken</code></p>
+<p>方法：通过在config/envirments/production.rb中增加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.action_controller.allow_forgery_protection &#x3D; false</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://blog.csdn.net/iam_song/article/details/7688631" target="_blank" rel="noopener">ActionController::InvalidAuthenticityToken解决办法</a></li>
+<li><a href="https://ruby-china.org/topics/21821" target="_blank" rel="noopener">Rails 中消失的 CSRF token</a></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>, <a href="/categories/tech/Rails/">Rails</a>
+  </div>
+
+        
+        
+  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+  <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- 返回顶部 -->
+<div id="toTop">
+	<a href="#">▲</a>
+	<a href="#footer">▼</a>
+</div></div></div>
+      <aside id="sidebar" class="alignright">
+        
+           <div class="search">
+  <form action="/search/index.html" method="get" accept-charset="utf-8">
+<!--     <input type="search" name="wd"results="0" placeholder="搜索">
+    <input type="hidden" name="wd" value="site:blog.justtodo.com"> -->
+     <input type="text" id="search" class="st-default-search-input" placeholder="搜索" style="height: 100%" />
+  </form>
+</div> 
+        
+          
+<div class="widget tag">
+  <h3 class="title" id="categories">分类</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coder/">代码分析师</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/">工具</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Markdown/">Markdown</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Vagrant/">Vagrant</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/AI/">AI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/C/">C++</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/Rails/">Rails</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/say/">晓月刀说</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/say/%E6%BA%90%E7%A0%81/">源码</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/say/%E9%80%BB%E8%BE%91/">逻辑</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/misc/">杂项</a><span class="category-list-count">2</span></li></ul> 
+</div>
+ 
+
+        
+          
+  <div class="widget tag">
+    <h3 class="title">友情链接</h3>
+      <ul class="entry">
+        
+          <li class='link'><a href='http://xiaoyun.farbox.com' target="_blank" rel="noopener">晓晓博客</a></li>
+        
+          <li class='link'><a href='http://www.ituring.com.cn/users/136808' target="_blank" rel="noopener">图灵社区</a></li>
+        
+      </ul>
+  </div>
+
+
+        
+          
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/Book/" style="font-size: 10px;">Book</a> <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CI/" style="font-size: 15px;">CI</a> <a href="/tags/Database/" style="font-size: 15px;">Database</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Third-Party/" style="font-size: 20px;">Third-Party</a> <a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a> <a href="/tags/WeChat/" style="font-size: 10px;">WeChat</a>
+  </div>
+</div>
+
+        
+          
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+	<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">公元 2018 年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">公元 2017 年</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">公元 2016 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">公元 2015 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/">公元 2011 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/">公元 2010 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/">公元 2009 年</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/">公元 2008 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/">公元 2007 年</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+        
+      </aside>
+      <div class="clearfix"></div>
+    </div>
+  <footer id="footer"><div class="footer-content inner">
+  <div class="alignleft">
+  
+    &copy; 2020 Denley Hsiao
+    
+  </div>
+  <div class="alignright">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme
+    <a href="https://github.com/pengloo53/Hexo-theme-light_cn" target="_blank" rel="noopener">light_cn</a>
+  </div>
+
+  <div>
+    Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a>
+  </div>
+  
+  <div class="clearfix"></div>
+</div></footer>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<!-- calendar widget -->
+
+
+<!-- 百度统计 -->
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?9acf0cedd48dc53be256ede5a98c2aaa";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<!-- fancybox -->
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+</body>
+</html>

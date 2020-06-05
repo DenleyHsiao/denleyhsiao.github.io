@@ -1,0 +1,352 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>C++ 库总结 | 晓月刀的博客</title>
+  <meta name="author" content="Denley Hsiao">
+  
+  <meta name="description" content="晓月刀的博客">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="C++ 库总结"/>
+  <meta property="og:site_name" content="晓月刀的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="alternate" href="/atom.xml" title="晓月刀的博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <!-- favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!-- Font-Awesome -->
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <header id="header"><div class= "header-content inner">
+	<div class = "alignleft col-one">
+		
+			<div class='avatar'>
+				<img src = "/assets/images/avator.jpeg">
+              </div>
+		
+		<div class="header-div">
+		    <h1><a href="/">晓月刀的博客</a></h1>
+		    <h2><a href="/">多动手、勤思考</a></h2>
+		</div>
+	</div>
+	<div class = "alignright col-two">
+		
+	</div>
+	<div class="clearfix"></div>
+</div>
+
+<div class= "header-nav">
+	<div class='header-nav-content inner'>
+		<div id="main-nav" class="alignleft">
+		    		
+		    		  <a href="/"><i class="fa fa-home"></i>首页</a>
+		    		
+		    		  <a href="/archives"><i class="fa fa-archive"></i>归档</a>
+		    		
+		    		  <a href="https://kbase.justtodo.com/" target="_blank" rel="noopener"><i class="fa fa-book"></i>电子书</a>
+		    		
+		</div>
+		<div id="sub-nav" class="alignright">
+		    
+		      <a href="/about"><i class="fa fa-user"></i>关于我</a>
+		    
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</div>
+</header>
+    <div id="content" class="inner">
+      <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+        <div class="icon"></div>
+        
+        <time datetime="2010-09-16T07:54:00.000Z"><a href="/tech/dll_thinking/">2010-09-16</a></time>
+        
+  
+    <h1 class="title">C++ 库总结</h1>
+  
+
+    </header>
+
+    <div class="entry">
+      
+        
+    <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#库编译"><span class="toc-text">库编译</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#APR"><span class="toc-text">APR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vs6"><span class="toc-text">vs6</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Boost"><span class="toc-text">Boost</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MagicK"><span class="toc-text">MagicK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vs2008"><span class="toc-text">vs2008</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log4Cpp"><span class="toc-text">Log4Cpp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vs6-1"><span class="toc-text">vs6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vs2003"><span class="toc-text">vs2003</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenSSL"><span class="toc-text">OpenSSL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vs6-2"><span class="toc-text">vs6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vs2008-1"><span class="toc-text">vs2008</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ZXing"><span class="toc-text">ZXing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vs6-3"><span class="toc-text">vs6</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+    </div>
+
+        <p>个人对DLL的一些心得总结</p>
+<a id="more"></a>
+
+<p>以下总结只针对windows平台:</p>
+<ul>
+<li><p>dll文件应有static 和 dynamic的版本，编译时临时文件的目录分别是: Debug, Release, DebugDll, ReleaseDll。  一般推荐使用dll的static版本，因为这样就不用指定dll文件所在的路径，以后对文件大小或其它要求时再换成dynamic版本的；但中间要注意的是:如果static版本文件有所改变，依赖其的项目要手动重新编译，不然使用的还是老版本的static 库。</p>
+</li>
+<li><p>dll文件命名为: <code>XxD.lib(Debug), Xx.lib(Release), XxD_dll.lib(Debug Dynamic), Xx_dll.lib(Release Dynamic)</code>, 如果是Unicode版本,在相应的’.’或’D’字符前加U，如:<code>XxUD.lib(Debug Unicode), XxU.lib(Release Unicode)</code>。</p>
+</li>
+<li><p>作为第三方API时，应提供完整的include, lib, bin目录，readme.txt文件，可选择提供example, doc目录。 其中：include文件夹中放依赖的头文件；lib中放所有的<em>.lib文件；bin中放所有的</em>.dll文件。</p>
+</li>
+<li><p>作为第三方API时，最好是通过def的方式生成，这样可以跨语言使用。如果只限于c++调用，并且要导出的类比较多，则可以折中考虑使用dllexport的方式。<br>以下总结是以前在Linux平台：(Eclipse+CDT)</p>
+</li>
+</ul>
+<p>如何新建库项目: 先新建一空项目，再修改设置：项目Property页—&gt;C/C++ Buildings—&gt;Settings—&gt;Build Artifact—&gt;Artifact Type中选择库类型。</p>
+<p>静态库使用：</p>
+<ul>
+<li>设置include头文件目录:.I./../XxLib/include;</li>
+<li>设置Linker库文件目录: -L./../XxLib/lib;</li>
+<li>设置Linker库文件: -lXxLib</li>
+</ul>
+<p>动态库使用:</p>
+<ul>
+<li>隐式调用同上面的静态库；</li>
+<li>显式调用在Linker中: -ldl -lXxLib;</li>
+<li>如果动态库不是放在/lib,/usr/lib目录下，需设置环境变量：LD_LIBRARY_PATH=./../XLib/lib</li>
+</ul>
+<p>当同时存在该库的静态版本和共享版本时，链接器优先使用共享版本Xx.so，此时你可以使用-static链接选项指定链接静态版本Xx.a<br>动态库可以导出两个特殊的函数：_init和_fini，前者在动态库被加载后调用，后者在动态库被卸载前调用，我们可以使用这两个函数做些特别的工作。</p>
+<p>需要注意的是：在定义这两个函数后编译时，需要使用-nostartfiles选项，否则编译器报重复定义错误。<br>应用程序与库混合调试：项目Property页—&gt;C/C++ General—&gt;Paths and Symbols—&gt;References—&gt;选择引用库。</p>
+<ul>
+<li>ldd用来查看程序所依赖的共享库，同时也方便我们判断共享库是否被找到; </li>
+<li>nm命令查看obj文件(.so也是一个obj)中的标识(函数、变量)。</li>
+</ul>
+<p>Q：在Linux的DLL中如何使用stdcall调用方式</p>
+<h1 id="库编译"><a href="#库编译" class="headerlink" title="库编译"></a>库编译</h1><h2 id="APR"><a href="#APR" class="headerlink" title="APR"></a>APR</h2><h3 id="vs6"><a href="#vs6" class="headerlink" title="vs6"></a>vs6</h3><ol>
+<li>下载解压apr,apr-util,apr-iconv到同一工作目录下;</li>
+<li>去掉各文件夹中的版本号, 如文件夹名apr-1.4.2改为apr(使用IDE时需要);</li>
+<li>使用IDE打开apr-util/aprutil.dsw(可能提示找不到apr-app.dsp,可替换aprutil.dsw中的”apr_app”为”aprapp”);</li>
+<li>选择”匹创建”, build-all(只要build win32的就可以了);</li>
+<li>设置好include, lib, bin目录。</li>
+</ol>
+<p>如何使用静态编译编译出来的APR文件</p>
+<ol>
+<li>定义宏 APR_DECLARE_STATIC；</li>
+<li>连接类库 apr-1.lib kernel32.lib ws2_32.lib RPCRT4.LIB MSWSOCK.LIB ADVAPI32.LIB</li>
+</ol>
+<h2 id="Boost"><a href="#Boost" class="headerlink" title="Boost"></a>Boost</h2><ol>
+<li>下载<a href="http://sourceforge.net/projects/boost/files/boost/1.47.0/" target="_blank" rel="noopener">boost 1.47.0</a>;  </li>
+<li>解压缩后，在boost根目录下运行bootstrap.bat批处理文件，得到bjam.exe;  </li>
+<li>进入VS2008的Command Prompt （方法：Tools -&gt; Visual Studio 2008 Command Prompt），转到boost目录。（例如，我的boost目录:D:\boost_1_47_0）  </li>
+<li>输入“bjam –toolset=msvc-9.0 –build-type=complete stage”后，等待约30分钟，完成编译。编译成的lib文件，放在stage\lib下，形如“libboost_program_options-vc90-sgd-1_47.lib”.<br>PS: 编译过程与1.46.1版本的编译比较类似，1.46.1版本编译，请<a href="http://blog.csdn.net/great3779/article/details/6454663" target="_blank" rel="noopener">参考</a></li>
+</ol>
+<h2 id="MagicK"><a href="#MagicK" class="headerlink" title="MagicK"></a>MagicK</h2><p>项目<a href="http://sourceforge.net/projects/graphicsmagick/" target="_blank" rel="noopener">地址</a>, 最好使用：HG版本控制可实时更新(解压.hg.rar文件后使用HG的update)  </p>
+<h3 id="vs2008"><a href="#vs2008" class="headerlink" title="vs2008"></a>vs2008</h3><ol>
+<li>打开”GraphicsMagicK\VisualMagick\configure”下的项目文件编译生成向导程序；</li>
+<li>通过向导程序选择生成哪种类型的动态库；</li>
+<li>执行完成后在” GraphicsMagicK\VisualMagick”目录下生成vs2009的项目文件；</li>
+<li>打开此文件编译即可在”GraphicsMagicK\VisualMagick \VisualMagick\lib目录下得到所需要的库文件。</li>
+</ol>
+<h2 id="Log4Cpp"><a href="#Log4Cpp" class="headerlink" title="Log4Cpp"></a>Log4Cpp</h2><h3 id="vs6-1"><a href="#vs6-1" class="headerlink" title="vs6"></a>vs6</h3><ol>
+<li>下载log4cpp并解压;</li>
+<li>打开\log4cpp-0.3.4b\msvc6\msvc6.dsw;</li>
+<li>编译log4cpp工程Release版;</li>
+<li>将编译后的log4cpp.lib复制到VC的Lib目录中;</li>
+<li>将头文件的目录log4cpp-0.3.4b\include\log4cpp\复制到VC的Include目录(或者添加log4cpp-0.3.4b\include到VC的Include环境变量);</li>
+<li>目标工程包含库log4cpp.lib ws2_32.lib（要选择库连接方式相同的库）。</li>
+</ol>
+<h3 id="vs2003"><a href="#vs2003" class="headerlink" title="vs2003"></a>vs2003</h3><ol>
+<li><p>报错error PRJ0019: 工具从”正在执行自定义生成步骤”，详细可以查看其BuildLog.htm 将转换后的vcproj打开，需要手工修改，原来的倒数几行的如下内容，使用了错误的可执行文件路径和错误的双引号，请注意，有的人说需要把NTEventLogCategories.mc这个文件删掉，我在我的机子上验证了下，那个文件不能删，并且需要把下面的内容替换替换为后面的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;FileConfiguration Name&#x3D;&quot;Debug|Win32&quot;&gt;</span><br><span class="line">  &lt;Tool Name&#x3D;&quot;VCCustomBuildTool&quot; CommandLine&#x3D;&quot;if not exist $(OutDir) md $(OutDir)</span><br><span class="line">  &quot;$(DevEnvDir)..\Tools\Bin\mc.exe&quot; -h $(OutDir) -r $(OutDir) $(ProjectDir)..\$(InputName).mc</span><br><span class="line">  &quot;$(DevEnvDir)..\..\vc7\Bin\RC.exe&quot; -r -fo $(OutDir)\$(InputName).res $(OutDir)\$(InputName).rc</span><br><span class="line">  &quot;$(DevEnvDir)..\..\VC7\Bin\link.exe&quot; &#x2F;MACHINE:IX86 -dll -noentry -out:$(OutDir)\NTEventLogAppender.dll $(OutDir)\$(InputName).res&quot;</span><br><span class="line">  Outputs&#x3D;&quot;$(OutDir)\NTEventLogAppender.dll&quot;&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;FileConfiguration&gt;</span><br><span class="line">&lt;FileConfiguration Name&#x3D;&quot;Release|Win32&quot;&gt;</span><br><span class="line">  &lt;Tool Name&#x3D;&quot;VCCustomBuildTool&quot; CommandLine&#x3D;&quot;if not exist $(OutDir) md $(OutDir)</span><br><span class="line">  &quot;$(DevEnvDir)..\Tools\Bin\mc.exe&quot; -h $(OutDir) -r $(OutDir) $(ProjectDir)..\$(InputName).mc</span><br><span class="line">  &quot;$(DevEnvDir)..\..\vc7\Bin\RC.exe&quot; -r -fo $(OutDir)\$(InputName).res $(OutDir)\$(InputName).rc</span><br><span class="line">  &quot;$(DevEnvDir)..\..\VC7\Bin\link.exe&quot; &#x2F;MACHINE:IX86 -dll -noentry -out:$(OutDir)\NTEventLogAppender.dll $(OutDir)\$(InputName).res&quot;</span><br><span class="line">  Outputs&#x3D;&quot;$(OutDir)\NTEventLogAppender.dll&quot;&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;FileConfiguration&gt;</span><br></pre></td></tr></table></figure>
+<p>替换为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;FileConfiguration Name&#x3D;&quot;Debug|Win32&quot;&gt;</span><br><span class="line">  &lt;Tool Name&#x3D;&quot;VCCustomBuildTool&quot; CommandLine&#x3D;&quot;if not exist &quot;$(OutDir)&quot; md &quot;$(OutDir)&quot;&quot;$(DevEnvDir)..\..\VC98\Bin\mc.exe&quot; -h &quot;$(OutDir)&quot; -r &quot;$(OutDir)&quot; &quot;$(ProjectDir)&quot;..\&quot;$(InputName)&quot;.mc&quot;$(DevEnvDir)Bin\RC.exe&quot; -r -fo &quot;$(OutDir)&quot;\&quot;$(InputName)&quot;.res &quot;$(OutDir)&quot;\&quot;$(InputName)&quot;.rc&quot;$(DevEnvDir)..\..\VC98\Bin\link.exe&quot; &#x2F;MACHINE:IX86 -dll -noentry -out:&quot;$(OutDir)&quot;\NTEventLogAppender.dll &quot;$(OutDir)&quot;\&quot;$(InputName)&quot;.res&quot;                               Outputs&#x3D;&quot;$(OutDir)\NTEventLogAppender.dll&quot;&#x2F;&gt;             </span><br><span class="line">&lt;&#x2F;FileConfiguration&gt;  </span><br><span class="line">&lt;FileConfiguration Name&#x3D;&quot;Release|Win32&quot;&gt;                     </span><br><span class="line">  &lt;Tool Name&#x3D;&quot;VCCustomBuildTool&quot; CommandLine&#x3D;&quot;if not exist &quot;$(OutDir)&quot; md &quot;$(OutDir)&quot;&quot;$(DevEnvDir)..\..\VC98\Bin\mc.exe&quot; -h &quot;$(OutDir)&quot; -r &quot;$(OutDir)&quot; &quot;$(ProjectDir)&quot;..\&quot;$(InputName)&quot;.mc&quot;$(DevEnvDir)Bin\RC.exe&quot; -r -fo &quot;$(OutDir)&quot;\&quot;$(InputName)&quot;.res &quot;$(OutDir)&quot;\&quot;$(InputName)&quot;.rc&quot;$(DevEnvDir)..\..\VC98\Bin\link.exe&quot; &#x2F;MACHINE:IX86 -dll -noentry -out:&quot;$(OutDir)&quot;\NTEventLogAppender.dll &quot;$(OutDir)&quot;\&quot;$(InputName)&quot;.res&quot;                               Outputs&#x3D;&quot;$(OutDir)\NTEventLogAppender.dll&quot;&#x2F;&gt;               </span><br><span class="line">&lt;&#x2F;FileConfiguration&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>log4cppDLL项目编译时会报8个连接错误，提示符号std::<em>Tree找不到<br>将include\log4cpp\FactoryParams.hh文件中的<code>const_iterator find(const std::string&amp; t) const</code>;<br>修改为const_iterator find(const std::string&amp; t) const { return storage</em>.find(t); }后重新编译</p>
+</li>
+<li><p>log4cppDLL项目编译时会报1个连接错误，提示符号log4cpp::localtime找不到<br>将src\localtime.cpp文件添加到项目中重新编译</p>
+</li>
+<li><p>log4cppDLL项目编译时找不到localtime_s找不到符号<br>因为VS版本低，所以头文件time.h里面没有这个函数，打开src里面的文件Localtime.cpp，修改<code>localtime_s(t, time)</code>为<br><code>::tm* tmp = ::localtime(time); memcpy(t, tmp, sizeof(::tm))</code>;编译则通过；  </p>
+</li>
+<li><p>编译testPattern工程时，提示找不到localtime符号<br>log4cpp项目编译时，把src\localtime.cpp文件添加到项目的Source Files中；把src\localtime.hh文件添加到项目的Header Files中重新编译；  </p>
+</li>
+</ol>
+<h2 id="OpenSSL"><a href="#OpenSSL" class="headerlink" title="OpenSSL"></a>OpenSSL</h2><h3 id="vs6-2"><a href="#vs6-2" class="headerlink" title="vs6"></a>vs6</h3><ol>
+<li>下载<a href="http://www.openssl.org/source/openssl-0.9.8l.tar.gz" target="_blank" rel="noopener">OpenSSL</a></li>
+<li>安装Perl;</li>
+<li>设置VC6环境：运行VCVARS32.BAT, 进入openssl源码目录。<br>以下为参照该目录下的文件INSTALL.W32的执行过程：  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">运行configure：  </span><br><span class="line">perl Configure VC-WIN32 no-asm</span><br><span class="line">创建Makefile文件：  </span><br><span class="line">ms\do_ms</span><br><span class="line"></span><br><span class="line">编译动态库：（注意编译问题中的8库函数版本问题）  </span><br><span class="line">nmake -f ms\ntdll.mak  </span><br><span class="line">编译静态库：  </span><br><span class="line">nmake -f ms\nt.mak  </span><br><span class="line">测试动态库：  </span><br><span class="line">nmake -f ms\ntdll.mak test  </span><br><span class="line">测试静态库：  </span><br><span class="line">nmake -f ms\nt.mak test  </span><br><span class="line">安装动态库：  </span><br><span class="line">nmake -f ms\ntdll.mak install  </span><br><span class="line">安装静态库：  </span><br><span class="line">nmake -f ms\nt.mak install  </span><br><span class="line">清除上次动态库的编译，以便重新编译：  </span><br><span class="line">nmake -f ms\ntdll.mak clean  </span><br><span class="line">清除上次静态库的编译，以便重新编译：  </span><br><span class="line">nmake -f ms\nt.mak clean</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>编译错误</p>
+<ol>
+<li>mc相关错误：VC编译环境未设置，运行VCVARS32.BAT，重启机器；</li>
+<li>ml相关错误：可能masm32未安装或者未设置PATH参数；（使用no-asm方式）</li>
+<li>link相关错误：可能masm32未安装或者未设置PATH参数；</li>
+<li>in6_addr错误:遇到缺少结构定义in6_addr，把下列代码拷到apps\s_cb.c文件中#include后面即可<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">in6_addr</span>   </span></span><br><span class="line"><span class="class">&#123;</span>  </span><br><span class="line"><span class="keyword">union</span>  </span><br><span class="line">    &#123;  </span><br><span class="line">		u_char  Byte[<span class="number">16</span>];  </span><br><span class="line">		u_short Word[<span class="number">8</span>];  </span><br><span class="line">	&#125; u;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li>ActivePerl环境未设置：修改Path参数，重启机器；</li>
+<li>动态库、静态库要分开编译，否则会出错；</li>
+<li>编译出错之后，如果要重新开始编译，请把openssl目录全部删除，再重新解压缩新文件到目录，确保编译环境正确；</li>
+<li>库函数版本问题<br>调整OpenSSL的静态函数库使用的库函数版本即可，调整过程如下：<br>编辑文件 ms\nt.mak，将该文件第19行<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CFLAG&#x3D; &#x2F;MD &#x2F;Ox &#x2F;O2 &#x2F;Ob2 &#x2F;W3 &#x2F;WX &#x2F;Gs0 &#x2F;GF &#x2F;Gy &#x2F;nologo -DOPENSSL_SYSNAME_WIN32 -DWIN32_LEAN_AND_MEAN -DL_ENDIAN -DDSO_WIN32 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE &#x2F;Fdout32 -DOPENSSL_NO_CAMELLIA -DOPENSSL_NO_SEED -DOPENSSL_NO_RC5 -DOPENSSL_NO_MDC2 -DOPENSSL_NO_TLSEXT -DOPENSSL_NO_KRB5 -DOPENSSL_NO_DYNAMIC_ENGINE</span><br></pre></td></tr></table></figure>
+中的”/MD”修改为”/MT”。然后重新编译安装OpenSSL即可。</li>
+</ol>
+<h3 id="vs2008-1"><a href="#vs2008-1" class="headerlink" title="vs2008"></a>vs2008</h3><ol>
+<li>安装Perl （ActivePerl 5.10.1）;</li>
+<li>下载并解压OpenSSL包 （openssl-0.9.8l）;</li>
+<li>打开VS2008 Express的命令行，并进入OpenSSL的根目录;</li>
+<li>执行命令：perl Configure VC-WIN32 （32位机器）;</li>
+<li>执行命令：ms\do_ms.bat;</li>
+<li>执行命令：nmake -f ms\ntdll.mak （生成DLL库，在out32dll子目录中）;</li>
+<li>执行命令：nmake -f ms\nt.mak （生成静态链接库，在out32子目录中）;<br>注1：库文件有两个：libeay32.lib 和 ssleay32.lib<br>注2：头文件在“inc32”子目录中</li>
+</ol>
+<h2 id="ZXing"><a href="#ZXing" class="headerlink" title="ZXing"></a>ZXing</h2><p>项目<a href="http://code.google.com/p/zxing/" target="_blank" rel="noopener">地址</a></p>
+<h3 id="vs6-3"><a href="#vs6-3" class="headerlink" title="vs6"></a>vs6</h3><ul>
+<li><p>在ZXING的CPP源码中需求更改文件名称的（以避免冲突，我觉得也可以采用设置编译器选项来避免此问题的，<br>例如通过更改相同文件生成中链接文件.obj在不同路径来避免冲突，但我没有偿试过）：<br>datamatrix中相同的文件（需要改名称我在文件名后加了个DM）：<br>detector目录:<br>  Detector.cpp/h      =====&gt;&gt; DetectorDM.cpp/h<br>  BitMatrixParser.cpp/h         =====&gt;&gt; BitMatrixParserDM.cpp/h<br>  DataBlock.cpp/h      =====&gt;&gt; DataBlockDM.cpp/h<br>  DecodedBitStreamParser.cpp/h  =====&gt;&gt; DecodedBitStreamParserDM.cpp/h<br>  Decoder.cpp/h      =====&gt;&gt; DecoderDM.cpp/h<br>  ./:<br>  Version.cpp/h      =====&gt;&gt; VersionDM.cpp/h  </p>
+</li>
+<li><p>由于ZXING的CPP源码是在LINUX下生成编译的，我们在编译时需要一些对应在WINDOWS平台下的头文件或库，<br>以下是我所用到的：<br>GnuWin32：主要用到了iconv.h头文件和libiconv.lib库，以及三个DLL，分别是libcharset1.dll，libiconv2.dll和libintl3.dll<br>nan.h：此文件别人传我的：-），我也没查到底从哪来的。。。</p>
+</li>
+<li><p>静态成员变量的实始化定义问题。在编译过程中可能会出现错误如下：<br>error C2258: illegal pure syntax, must be ‘= 0’<br>出现此错误的原因是由于在类中定义了静态成员变量而没有正确的进行<br>初始化，例如以下代码（此代码在类定义头文件中）就会出现此问题：</p>
+<p>static const DecodeHintType BARCODEFORMAT_QR_CODE_HINT = 1 &lt;&lt; BarcodeFormat_QR_CODE;<br>我的解决方案是把此变量的初始化放到CPP文件中去，修改后如下：<br>在头文件中定义：<br>static const DecodeHintType BARCODEFORMAT_QR_CODE_HINT;<br>在CPP文件中初始化：<br>const DecodeHintType DecodeHints::BARCODEFORMAT_QR_CODE_HINT = 1 &lt;&lt; BarcodeFormat_QR_CODE;</p>
+</li>
+<li><p>重载函数的显式指定类型的问题。在编译过程中可能会现错误如下：<br>error C2593: ‘operator =’ is ambiguous<br>这一般是由于有多个重载函数时，在使用时没有显式的指定所要使<br>用的函数。例如，以下是出现此错误的代码：<br>row = new BitArray(width_);<br>修改后的代码：<br>row = (Ref<BitArray>)new BitArray(width_);</p>
+</li>
+<li><p>定义枚举类型的常量问题。在编译过程中可能会出现错误如下：<br>error C2057: expected constant expression<br>这是由于在定义数组或枚举以及一些需要指定数值的变量时，<br>其数值在预编译阶段还不能确定值的大小所引起的。例如，以<br>下是出现此错误的代码：<br> enum {MAX_AVG_VARIANCE = (unsigned int) (PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.25f)};<br> 在此语句中PATTERN_MATCH_RESULT_SCALE_FACTOR的定义是：static const int PATTERN_MATCH_RESULT_SCALE_FACTOR;<br> 它在预编译阶段的值还没确定（因为初始化静态变量的代码放到CPP中了），因此出现此错误。<br>我的临时解决办法是，在定义此枚举变量前定义一个变量，此变量值确定，从而避免此错误。<br>例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> MAC_MAX_AVG_VARIANCE  </span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MY_INTEGER_MATH_SHIFT = <span class="number">8</span>;  </span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MY_PATTERN_MATCH_RESULT_SCALE_FACTOR = <span class="number">1</span> &lt;&lt; MY_INTEGER_MATH_SHIFT;  </span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>  </span></span><br><span class="line"><span class="keyword">enum</span> &#123;MAX_AVG_VARIANCE = (<span class="keyword">unsigned</span> <span class="keyword">int</span>) (MY_PATTERN_MATCH_RESULT_SCALE_FACTOR * <span class="number">0.25f</span>)&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>类似的还有如下语句：<br>int patternLength = patternLen;<br>int counters[patternLength];//此句会出错，因为patternLength并不确定<br>我修改为通过动态创建来避免：<br>int <em>counters = new int[patternLength];<br>注意这里用完</em>counters要记得删除，以免造成内存泄漏。</p>
+</li>
+<li><p>要运行ZXING源码的CPP包中提供的样例（在CPP的magick文件夹下），还需要安装ImageMagick库， 我安装的是其WINDOWS下的版本ImageMagick-6.6.8-10</p>
+</li>
+</ul>
+<p>经过以上折腾后我的ZXING工程算是编译通过了，然后也能读取一些QR码了，其它的功能还有待挖掘。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://www.cppblog.com/ietj/archive/2010/09/16/126777.html" target="_blank" rel="noopener">阅读原文</a></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>, <a href="/categories/tech/C/">C++</a>
+  </div>
+
+        
+        
+  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+  <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- 返回顶部 -->
+<div id="toTop">
+	<a href="#">▲</a>
+	<a href="#footer">▼</a>
+</div></div></div>
+      <aside id="sidebar" class="alignright">
+        
+           <div class="search">
+  <form action="/search/index.html" method="get" accept-charset="utf-8">
+<!--     <input type="search" name="wd"results="0" placeholder="搜索">
+    <input type="hidden" name="wd" value="site:blog.justtodo.com"> -->
+     <input type="text" id="search" class="st-default-search-input" placeholder="搜索" style="height: 100%" />
+  </form>
+</div> 
+        
+          
+<div class="widget tag">
+  <h3 class="title" id="categories">分类</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coder/">代码分析师</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/">工具</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Markdown/">Markdown</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Vagrant/">Vagrant</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/AI/">AI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/C/">C++</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/Rails/">Rails</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/say/">晓月刀说</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/say/%E6%BA%90%E7%A0%81/">源码</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/say/%E9%80%BB%E8%BE%91/">逻辑</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/misc/">杂项</a><span class="category-list-count">2</span></li></ul> 
+</div>
+ 
+
+        
+          
+  <div class="widget tag">
+    <h3 class="title">友情链接</h3>
+      <ul class="entry">
+        
+          <li class='link'><a href='http://xiaoyun.farbox.com' target="_blank" rel="noopener">晓晓博客</a></li>
+        
+          <li class='link'><a href='http://www.ituring.com.cn/users/136808' target="_blank" rel="noopener">图灵社区</a></li>
+        
+      </ul>
+  </div>
+
+
+        
+          
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/Book/" style="font-size: 10px;">Book</a> <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CI/" style="font-size: 15px;">CI</a> <a href="/tags/Database/" style="font-size: 15px;">Database</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Third-Party/" style="font-size: 20px;">Third-Party</a> <a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a> <a href="/tags/WeChat/" style="font-size: 10px;">WeChat</a>
+  </div>
+</div>
+
+        
+          
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+	<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">公元 2018 年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">公元 2017 年</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">公元 2016 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">公元 2015 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/">公元 2011 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/">公元 2010 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/">公元 2009 年</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/">公元 2008 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/">公元 2007 年</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+        
+      </aside>
+      <div class="clearfix"></div>
+    </div>
+  <footer id="footer"><div class="footer-content inner">
+  <div class="alignleft">
+  
+    &copy; 2020 Denley Hsiao
+    
+  </div>
+  <div class="alignright">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme
+    <a href="https://github.com/pengloo53/Hexo-theme-light_cn" target="_blank" rel="noopener">light_cn</a>
+  </div>
+
+  <div>
+    Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a>
+  </div>
+  
+  <div class="clearfix"></div>
+</div></footer>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<!-- calendar widget -->
+
+
+<!-- 百度统计 -->
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?9acf0cedd48dc53be256ede5a98c2aaa";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<!-- fancybox -->
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+</body>
+</html>

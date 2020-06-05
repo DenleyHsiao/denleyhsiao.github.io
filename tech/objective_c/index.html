@@ -1,0 +1,290 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Objective-C学习笔记 | 晓月刀的博客</title>
+  <meta name="author" content="Denley Hsiao">
+  
+  <meta name="description" content="晓月刀的博客">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Objective-C学习笔记"/>
+  <meta property="og:site_name" content="晓月刀的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="alternate" href="/atom.xml" title="晓月刀的博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <!-- favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!-- Font-Awesome -->
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <header id="header"><div class= "header-content inner">
+	<div class = "alignleft col-one">
+		
+			<div class='avatar'>
+				<img src = "/assets/images/avator.jpeg">
+              </div>
+		
+		<div class="header-div">
+		    <h1><a href="/">晓月刀的博客</a></h1>
+		    <h2><a href="/">多动手、勤思考</a></h2>
+		</div>
+	</div>
+	<div class = "alignright col-two">
+		
+	</div>
+	<div class="clearfix"></div>
+</div>
+
+<div class= "header-nav">
+	<div class='header-nav-content inner'>
+		<div id="main-nav" class="alignleft">
+		    		
+		    		  <a href="/"><i class="fa fa-home"></i>首页</a>
+		    		
+		    		  <a href="/archives"><i class="fa fa-archive"></i>归档</a>
+		    		
+		    		  <a href="https://kbase.justtodo.com/" target="_blank" rel="noopener"><i class="fa fa-book"></i>电子书</a>
+		    		
+		</div>
+		<div id="sub-nav" class="alignright">
+		    
+		      <a href="/about"><i class="fa fa-user"></i>关于我</a>
+		    
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</div>
+</header>
+    <div id="content" class="inner">
+      <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+        <div class="icon"></div>
+        
+        <time datetime="2009-08-25T00:39:00.000Z"><a href="/tech/objective_c/">2009-08-25</a></time>
+        
+  
+    <h1 class="title">Objective-C学习笔记</h1>
+  
+
+    </header>
+
+    <div class="entry">
+      
+        
+    <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+    </div>
+
+        <p>目前好象只有Apple使用Objective-C作为其支持的语言吧，那它与C++相比到底如何呢？</p>
+<a id="more"></a>
+
+<p>与C++的不同之处有：</p>
+<ul>
+<li>O-C中所有的类都必须继承自NSObject。</li>
+<li>O-C中所有对象都是指针的形式。</li>
+<li>O-C用self代替this。</li>
+<li>O-C使用id代替void*。</li>
+<li>O-C使用nil表示NULL</li>
+<li>O-Ck只支持单继承。</li>
+<li>O-C使用YES/NO表示TRUE/FALSE</li>
+<li>O-C使用#import代替#include</li>
+<li>O-C中用消息表示类的方法，并采用[aInstance method:argv]调用形式。</li>
+<li>O-C支持反射机制</li>
+<li>O-C支持Dynamic Typing, Dynamic Binding和Dynamic Loading。</li>
+</ul>
+<p>与C++的相同之处有：</p>
+<ul>
+<li>与C共享的部分一致。</li>
+<li>可以使用assert(BOOL), 一般用NSCParameterAssert(BOOL)代替。</li>
+</ul>
+<p>O-C中的命名前缀说明：</p>
+<ul>
+<li>NS-：NextStep</li>
+<li>CF-：Core Foundation</li>
+<li>CA-：Core Animation</li>
+<li>CG-：Core Graphics</li>
+<li>UI-：User Interface</li>
+</ul>
+<p>O-C中的消息特殊性：<br>调用消息的类可以不知道如何响应这个消息。如果它不知道如何处理这个消息，它会自动的将这个消息转给其他的类，比如它的父类。<br>调用消息的类可以是nil。在C++中，在使用类方法之前，我们都需要检查对象是否为空，所以在实现析构函数的时候，常会有如下的代码，如if (var) { delete var; } 但是在objective c中，我们就可以直接写[var release]; 即使var == nil, 也不会有问题。<br>O-C中的函数声明格式有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-&#x2F;+ (return type) function_name;</span><br><span class="line"></span><br><span class="line">-&#x2F;+ (return type) function_name : (parameter type) parameter;</span><br><span class="line"></span><br><span class="line">-&#x2F;+ (return type) function_name : (parameter type) parameter1 otherParameter : (parameter_type) parameter2</span><br></pre></td></tr></table></figure>
+
+<p>以上参数说明:-表示一般函数，+表示静态函数。otherParameter是参数的别名(第一个参数的别名省略),在函数调用时方便指定。</p>
+<p>O-C中的构造/析构函数</p>
+<ul>
+<li>O-C中的init()/release()对应于C++的构造/析构函数。alloc()/dealloc()也就对应于C++的new和delete,其中的dealloc()由于引用计数的自动调用而不用手动调用。</li>
+<li>O-C中父类的init()/release()函数需要子类的手动调用。而且每次都必须调用。不同于C++的自动调用。</li>
+<li>构造函数(- (id) init)调用形如：CSample* pSample=[CSample alloc] init];其中alloc(+ (id) alloc)是继承来的static函数，init是继承来的一般函数，如重写一般函数时，则相当于C++的覆盖(不带参数)或重载(带参数)。</li>
+<li>析构函数(- (void) release)将引用计数减1，当=0时父类的release()会自动调用dealloc(- (void) dealloc);</li>
+</ul>
+<p>当O-C没有数据成员时，可省略{},建议保留。</p>
+<p>继承下来的方法，如：-(id) init可以头文件中省略，建议保留</p>
+<p>0-C中只有数据成员的访问限制，没有方法的访问限制。</p>
+<p>同C++一样，数据成员有三种访问限制public, protected, private，缺省是protected。</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@interface AccessExample: NSObject &#123; </span><br><span class="line">@public </span><br><span class="line">int publicVar; </span><br><span class="line">@protected </span><br><span class="line">int protectedVar; </span><br><span class="line">@private </span><br><span class="line">int privateVar; </span><br><span class="line">&#125; </span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>方法的访问限制可通过Category实现</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@interface MyClass</span><br><span class="line"></span><br><span class="line">- (void) sayHello &#123;</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;Hello&quot;); </span><br><span class="line"></span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">@end </span><br><span class="line"></span><br><span class="line">@interface MyClass(Private)</span><br><span class="line"></span><br><span class="line">- (void) kissGoodbye;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>O-C中没有类的静态变量，只有全局变量</p>
+<p>O-C中的数组NSArray可以保存不同类型的数据。</p>
+<p>O-C也支持run-time时的类类型检查</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL) isKindOfClass: classObj </span><br><span class="line">用于判断该对象是否属于某个类或者它的子类</span><br><span class="line"></span><br><span class="line">- (BOOL) isMemberOfClass: classObj </span><br><span class="line">用于判断该对象是否属于某个类（这里不包括子类)</span><br><span class="line"></span><br><span class="line">- (BOOL) respondsToSelector: selector </span><br><span class="line">用于判断该对象是否能响应某个消息。这里，我们可以将@selector后面带的参数理解为C++中的函数指针。 </span><br><span class="line">注意：1）不要忘了@ 2）@selector后面用的是()，而不是［］。3）要在消息名称后面跟：，无论这个消息是否带参数。如：[pSquare respondsToSelector:@selector(Set: andHeight:)]。</span><br><span class="line"></span><br><span class="line">+ (BOOL) instancesRespondToSelector: selector </span><br><span class="line">用于判断该类是否能响应某个消息。这是一个静态函数。</span><br><span class="line"></span><br><span class="line">-(id) performSelector: selector ：调用对象的selector方法。</span><br></pre></td></tr></table></figure>
+
+<p>conformsToProtocol 类似于respondsToSelector ，用于动态检查某个对象是否遵守某个协议。</p>
+<p>Category：在没有源代码的情况下，为一个已经存在的类添加一些新的功能</p>
+<p>只能添加新的方法，不能添加新的数据成员</p>
+<p>Category 的名字必须是唯一的</p>
+<p>Protocol：相当于C++中的纯虚类</p>
+<p>形如：<code>@interface MyDate: NSObject &lt;Printing&gt; { } @end</code><br>使用：<code>MyDate * dat = [[MyDate alloc] init]; id&lt;Printing&gt; var = dat; [var print]</code><br>说明：我们首先声明了Printing 协议，任何遵守这个协议的类，都必须实现print 方法。在Objective C中，我们通过&lt;&gt;来表示遵守某个协议。当某个类声明要遵守某个协议之后，它就必须在.m文件中实现这个协议中的所有方法。使用id<Printing> 作为类型，而不是象C++中的Printing* var。<br>IBOutlet, IBAction: 这两个东西其实在语法中没有太大的作用。如果你希望在Interface Builder中能看到这个控件对象，那么在定义的时候前面加上IBOutlet，在IB里就能看到这个对象的outlet，如果你希望在Interface Builder里控制某个对象执行某些动作，就在方法前面加上(IBAction)。<br>尽量避免在一行语句中进行两层以上的嵌套<br>消息转发：<code>- (void) forwardInvocation: (NSInvocation*)anInvocation;</code></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://www.cppblog.com/ietj/archive/2009/08/25/94346.html" target="_blank" rel="noopener">阅读原文</a></li>
+<li><a href="http://blog.csdn.net/huanglx1984/archive/2009/07/06/4325377.aspx" target="_blank" rel="noopener">iPhone开发学习笔记</a></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>
+  </div>
+
+        
+  <div class="tags">
+    <a href="/tags/Objective-C/">Objective-C</a>
+  </div>
+
+        
+  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+  <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- 返回顶部 -->
+<div id="toTop">
+	<a href="#">▲</a>
+	<a href="#footer">▼</a>
+</div></div></div>
+      <aside id="sidebar" class="alignright">
+        
+           <div class="search">
+  <form action="/search/index.html" method="get" accept-charset="utf-8">
+<!--     <input type="search" name="wd"results="0" placeholder="搜索">
+    <input type="hidden" name="wd" value="site:blog.justtodo.com"> -->
+     <input type="text" id="search" class="st-default-search-input" placeholder="搜索" style="height: 100%" />
+  </form>
+</div> 
+        
+          
+<div class="widget tag">
+  <h3 class="title" id="categories">分类</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coder/">代码分析师</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/">工具</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Markdown/">Markdown</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/Vagrant/">Vagrant</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/AI/">AI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/C/">C++</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/Rails/">Rails</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/Ruby/">Ruby</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tech/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/say/">晓月刀说</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/say/%E6%BA%90%E7%A0%81/">源码</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/say/%E9%80%BB%E8%BE%91/">逻辑</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/misc/">杂项</a><span class="category-list-count">2</span></li></ul> 
+</div>
+ 
+
+        
+          
+  <div class="widget tag">
+    <h3 class="title">友情链接</h3>
+      <ul class="entry">
+        
+          <li class='link'><a href='http://xiaoyun.farbox.com' target="_blank" rel="noopener">晓晓博客</a></li>
+        
+          <li class='link'><a href='http://www.ituring.com.cn/users/136808' target="_blank" rel="noopener">图灵社区</a></li>
+        
+      </ul>
+  </div>
+
+
+        
+          
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/Book/" style="font-size: 10px;">Book</a> <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CI/" style="font-size: 15px;">CI</a> <a href="/tags/Database/" style="font-size: 15px;">Database</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Third-Party/" style="font-size: 20px;">Third-Party</a> <a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a> <a href="/tags/WeChat/" style="font-size: 10px;">WeChat</a>
+  </div>
+</div>
+
+        
+          
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+	<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">公元 2018 年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">公元 2017 年</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">公元 2016 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">公元 2015 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/">公元 2011 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/">公元 2010 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/">公元 2009 年</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/">公元 2008 年</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/">公元 2007 年</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+        
+      </aside>
+      <div class="clearfix"></div>
+    </div>
+  <footer id="footer"><div class="footer-content inner">
+  <div class="alignleft">
+  
+    &copy; 2020 Denley Hsiao
+    
+  </div>
+  <div class="alignright">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme
+    <a href="https://github.com/pengloo53/Hexo-theme-light_cn" target="_blank" rel="noopener">light_cn</a>
+  </div>
+
+  <div>
+    Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a>
+  </div>
+  
+  <div class="clearfix"></div>
+</div></footer>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<!-- calendar widget -->
+
+
+<!-- 百度统计 -->
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?9acf0cedd48dc53be256ede5a98c2aaa";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<!-- fancybox -->
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+</body>
+</html>
